@@ -8,8 +8,8 @@ Description=
 CreationTime=2:52PM
 CreationDate=09-18-2019
 CreatedBy=
-ModificationTime=10:21AM
-ModificationDate=12-03-2025
+ModificationTime=9:11PM
+ModificationDate=01-20-2026
 ModifiedBy=
 
 [DeviceInfo]
@@ -1838,7 +1838,7 @@ ParameterName=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0001
-AccessType=rw
+AccessType=ro
 DefaultValue=
 PDOMapping=1
 
@@ -1847,7 +1847,7 @@ ParameterName=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0001
-AccessType=rw
+AccessType=ro
 DefaultValue=
 PDOMapping=1
 
@@ -1871,7 +1871,7 @@ ParameterName=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0001
-AccessType=rw
+AccessType=ro
 DefaultValue=
 PDOMapping=1
 
@@ -1880,7 +1880,7 @@ ParameterName=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0001
-AccessType=rw
+AccessType=ro
 DefaultValue=
 PDOMapping=1
 
@@ -1889,7 +1889,7 @@ ParameterName=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0001
-AccessType=rw
+AccessType=ro
 DefaultValue=
 PDOMapping=1
 
@@ -1898,7 +1898,7 @@ ParameterName=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0001
-AccessType=rw
+AccessType=ro
 DefaultValue=
 PDOMapping=1
 
@@ -1922,7 +1922,7 @@ ParameterName=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0001
-AccessType=rw
+AccessType=wo
 DefaultValue=
 PDOMapping=1
 
@@ -1931,7 +1931,7 @@ ParameterName=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0001
-AccessType=rw
+AccessType=wo
 DefaultValue=
 PDOMapping=1
 
@@ -1940,7 +1940,7 @@ ParameterName=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0001
-AccessType=rw
+AccessType=wo
 DefaultValue=
 PDOMapping=1
 
@@ -1949,7 +1949,7 @@ ParameterName=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0001
-AccessType=rw
+AccessType=wo
 DefaultValue=
 PDOMapping=1
 
@@ -1973,7 +1973,7 @@ ParameterName=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0005
-AccessType=rw
+AccessType=ro
 DefaultValue=
 PDOMapping=1
 
@@ -1982,7 +1982,7 @@ ParameterName=
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0005
-AccessType=rw
+AccessType=ro
 DefaultValue=
 PDOMapping=1
 

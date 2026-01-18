@@ -327,9 +327,9 @@ const CO_OD_entry_t CO_OD[50] = {
 {0x2101, 0x00, 0xa7, 4, (void*)&CO_OD_EEPROM.powerOnCounter},
 {0x2102, 0x00, 0x3e, 1, (void*)&CO_OD_RAM.halSensorEnable},
 {0x2103, 0x00, 0xbe, 4, (void*)&CO_OD_RAM.halSensorPeriode},
-{0x2104, 0x02, 0x0e, 1, (void*)&CO_OD_RAM.halSensorMeasurement[0]},
-{0x2105, 0x04, 0x0e, 1, (void*)&CO_OD_RAM.relaisState[0]},
-{0x2106, 0x04, 0x0e, 1, (void*)&CO_OD_RAM.relaisCmd[0]},
-{0x2107, 0x02, 0x0e, 1, (void*)&CO_OD_RAM.valveState[0]},
+{0x2104, 0x02, 0x26, 1, (void*)&CO_OD_RAM.halSensorMeasurement[0]},
+{0x2105, 0x04, 0x26, 1, (void*)&CO_OD_RAM.relaisState[0]},
+{0x2106, 0x04, 0x1a, 1, (void*)&CO_OD_RAM.relaisCmd[0]},
+{0x2107, 0x02, 0x26, 1, (void*)&CO_OD_RAM.valveState[0]},
 };
 // clang-format on

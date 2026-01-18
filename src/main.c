@@ -170,9 +170,18 @@ void us_hall_func(void *d0, void *d1, void *d2) {
 // Enable hall thread
 static CO_SDO_abortCode_t odf_2102(CO_ODF_arg_t *odf_arg)
 {
+	if (odf_arg->reading) {
+		LOG_INF("Read SDO 0x2102\n");
+		return CO_SDO_AB_NONE;
+	}
+
+	LOG_INF("Write SDO 0x2102\n");
 	uint8_t value;
 
-	value = *(odf_arg->data);
+	if (odf_arg->data == NULL) {
+		return CO_SDO_AB_GENERAL;
+	}
+	value = *odf_arg->data;
 	
 	if (!hall_enable(value)) {
 		return CO_SDO_AB_GENERAL;
@@ -200,6 +209,9 @@ int hall_enable(uint8_t value)
                                  us_hall_func,
                                  NULL, NULL, NULL,
                                  K_LOWEST_APPLICATION_THREAD_PRIO, 0, K_NO_WAIT);
+		CO_LOCK_OD();
+		OD_halSensorEnable = 1;
+		CO_UNLOCK_OD();
 	} else {
 		us_hall_loop = false;
 		err = gpio_pin_set_dt(&hall_sw, 0);
@@ -207,6 +219,9 @@ int hall_enable(uint8_t value)
 			LOG_ERR("Setting hall switch GPIO pin level failed: %d\n", err);
     		return -1;
 		}
+		CO_LOCK_OD();
+		OD_halSensorEnable = 0;
+		CO_UNLOCK_OD();
     }
     return 0;
 }
@@ -268,7 +283,7 @@ int main(void)
 
 		config_leds(CO->NMT);
 		config_powerstates();
-		CO_OD_configure(CO->SDO[0], OD_2102_hallSensorEnable,
+		CO_OD_configure(CO->SDO[0], OD_2102_halSensorEnable,
 				odf_2102, NULL, 0U, 0U);
 
 		if (IS_ENABLED(CONFIG_CANOPENNODE_PROGRAM_DOWNLOAD)) {

@@ -2,20 +2,31 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/jaster-prj/devcontainer-zephyr-workspace:latest
+      volumes:
+        - /opt/hostedtoolcache:/delete-me
     outputs:
       artifact-url: ${{ steps.artifact-upload.outputs.artifact-url }}
       artifact-id: ${{ steps.artifact-upload.outputs.artifact-id }}
     steps:
+      - name: Clean Out Deletable Files
+        run: rm -rf /delete-me/*
+        shell: bash
       - name: link workspace
         run: |
           ln -s /workspace ./zephyr_workspace
+      - name: Download zephyr
+        working-directory: ./zephyr_workspace
+        run: |
+          west update
+          west zephyr-export
+          /opt/venv/bin/python -m pip install -r zephyr/scripts/requirements.txt
       - name: Clone Application
         uses: actions/checkout@v4
         with:
@@ -39,13 +50,16 @@ jobs:
       - name: build app
         working-directory: ./zephyr_workspace
         run: |
-          west build -b gartennode app --build-dir build -- -DEXTRA_CONF_FILE=prj.conf
-          imgtool sign --header-size 0x200 --align 8 --version 1.2 --slot-size 0x30000 --key bootloader/mcuboot/gartennode.pem --pad build/zephyr/zephyr.bin signed_zephyr.bin
+          /opt/venv/bin/west build -b gartennode app --build-dir build -- -DEXTRA_CONF_FILE=prj.conf
+      - name: sign app
+        working-directory: ./zephyr_workspace
+        run: |
+          /opt/venv/bin/python bootloader/mcuboot/scripts/imgtool.py sign --header-size 0x200 --align 8 --version 1.2 --slot-size 0x30000 --key bootloader/mcuboot/gartennode.pem --pad build/zephyr/zephyr.bin signed_zephyr.bin
           cp ./app/objdict/objdict.eds .
           tar -czf software.tar.gz signed_zephyr.bin objdict.eds
       - name: Publish binary
         id: artifact-upload
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: softwarefile
           path: zephyr_workspace/software.tar.gz
@@ -72,4 +86,4 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.PAT }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/$repo_owner/$repo_name/dispatches \
-            -d "{\"event_type\": \"$event_type\", \"client_payload\": {\"repo_name\":\"jaster-prj/zephyr_gartennode_zysternenmodul\",\"run_id\":\"$run_id\",\"node_id\":\"$node_id\",\"artifact_id\":\"$artifact_id\",\"artifact_url\": \"$artifact_url\"}}"
+            -d "{\"event_type\": \"$event_type\", \"client_payload\": {\"repo_name\":\"jaster-prj/zephyr_gartennode_wasserverteiler\",\"run_id\":\"$run_id\",\"node_id\":\"$node_id\",\"artifact_id\":\"$artifact_id\",\"artifact_url\": \"$artifact_url\"}}"

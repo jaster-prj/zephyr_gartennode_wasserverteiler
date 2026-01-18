@@ -7,7 +7,7 @@ macro(app_set_runner_args)
 endmacro()
 
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
-project(gartennode_zysterne)
+project(gartennode_wasserverteiler)
 FILE(GLOB app_sources src/*.c)
 target_sources(app PRIVATE ${app_sources} objdict/CO_OD.c)
 zephyr_include_directories(objdict src)
