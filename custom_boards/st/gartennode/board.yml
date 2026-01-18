@@ -1,0 +1,5 @@
+board:
+  name: gartennode
+  vendor: st
+  socs:
+    - name: stm32l431xx

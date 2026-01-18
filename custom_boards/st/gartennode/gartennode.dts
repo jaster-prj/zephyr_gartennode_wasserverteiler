@@ -1,0 +1,142 @@
+/dts-v1/;
+#include "stm32l431Xc.dtsi"
+#include <st/l4/stm32l431k(b-c)ux-pinctrl.dtsi>
+
+/ {
+	model = "Gartennode";
+	compatible = "st,stm32l431kc";
+
+	chosen {
+		zephyr,console = &usart1;
+		zephyr,shell-uart = &usart1;
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+		zephyr,code-partition = &slot0_partition;
+		zephyr,canbus = &can1;
+	};
+
+	leds: leds {
+		compatible = "gpio-leds";
+		green_led: led_0 {
+			gpios = <&gpioc 15 GPIO_ACTIVE_HIGH>;
+			label = "User LD1";
+		};
+	};
+
+	aliases {
+		led0 = &green_led;
+	};
+};
+
+&clk_lsi {
+	status = "okay";
+};
+
+&clk_hsi {
+	status = "okay";
+};
+
+&pll {
+	div-m = <1>;
+	mul-n = <20>;
+	div-p = <7>;
+	div-q = <2>;
+	div-r = <4>;
+	clocks = <&clk_hsi>;
+	status = "okay";
+};
+
+&rcc {
+	clocks = <&pll>;
+	clock-frequency = <DT_FREQ_M(80)>;
+	ahb-prescaler = <1>;
+	apb1-prescaler = <1>;
+	apb2-prescaler = <1>;
+};
+
+&usart1 {
+	pinctrl-0 = <&usart1_tx_pa9 &usart1_rx_pa10>;
+	pinctrl-names = "default";
+	current-speed = <115200>;
+	status = "okay";
+};
+
+&spi1 {
+	pinctrl-0 = <&spi1_nss_pa15 &spi1_sck_pb3
+		     &spi1_miso_pb4 &spi1_mosi_pb5>;
+	pinctrl-names = "default";
+	status = "okay";
+	w25q128jv: w25q128jv@0 {
+		compatible ="jedec,spi-nor";
+		size = <0x8000000>;
+		reg = <0>;
+		spi-max-frequency = <20000000>;
+		hold-gpios = < &gpioa 8 GPIO_ACTIVE_LOW >;
+		status = "okay";
+		jedec-id = [ef 40 18];
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			slot1_partition: partition@0 {
+				label = "image-1";
+				reg = <0x00000000 DT_SIZE_K(192)>;
+			};
+			scratch_partition: partition@30000 {
+				label = "image-scratch";
+				reg = <0x00030000 DT_SIZE_K(192)>;
+			};
+			storage_partition: partition@60000 {
+				label = "storage";
+				reg = <0x00060000 0x00006000>;
+			};
+		};
+	};
+};
+
+&i2c1 {
+	pinctrl-0 = <&i2c1_scl_pb6 &i2c1_sda_pb7>;
+	pinctrl-names = "default";
+	clock-frequency = <I2C_BITRATE_FAST>;
+	status = "okay";
+};
+
+&can1 {
+	pinctrl-0 = <&can1_rx_pa11 &can1_tx_pa12>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&rtc {
+	clocks = <&rcc STM32_CLOCK_BUS_APB1 0x10000000>,
+		 <&rcc STM32_SRC_LSI RTC_SEL(2)>;
+	status = "okay";
+};
+
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		/*
+		 * The two sectors 0-31 (32*2 kbytes) are reserved for
+		 * the bootloader.
+		 */
+		boot_partition: partition@0 {
+			label = "mcuboot";
+			reg = <0x0 DT_SIZE_K(64)>;
+			read-only;
+		};
+
+		/*
+		 * Allocated 96 (96*2k) sectors for image-0. Sectors 32-128.
+		 */
+		slot0_partition: partition@10000 {
+			label = "image-0";
+			reg = <0x00010000 DT_SIZE_K(192)>;
+		};
+	};
+};

@@ -1,0 +1,5 @@
+# Copyright (c) 2016 BayLibre, SAS
+# SPDX-License-Identifier: Apache-2.0
+
+config BOARD_GARTENNODE
+	select SOC_STM32L431XX
