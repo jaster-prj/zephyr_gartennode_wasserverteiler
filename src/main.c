@@ -150,6 +150,7 @@ void us_hall_func(void *d0, void *d1, void *d2) {
 	CO_LOCK_OD();
 	OD_halSensorEnable = 1;
 	CO_UNLOCK_OD();
+	LOG_DBG("start us_hall_func loop");
     while(us_hall_loop) {
 		//set_update = false;
 		for (int i=0;i<2;i++) {
@@ -213,15 +214,16 @@ int hall_enable(uint8_t value)
 			LOG_ERR("Configuring hall switch GPIO pin failed: %d\n", err);
     		return -1;
 		}
+		if (OD_halSensorEnable == 1) {
+			LOG_DBG("Thread already started");
+			return 1;
+		}
 		us_hall_loop = true;
 		us_hall_tid = k_thread_create(&us_hall_thread, us_hall_stack_area,
                                  K_THREAD_STACK_SIZEOF(us_hall_stack_area),
                                  us_hall_func,
                                  NULL, NULL, NULL,
                                  K_LOWEST_APPLICATION_THREAD_PRIO, 0, K_NO_WAIT);
-		// CO_LOCK_OD();
-		// OD_halSensorEnable = 1;
-		// CO_UNLOCK_OD();
 	} else {
 		us_hall_loop = false;
 		err = gpio_pin_set_dt(&hall_sw, 0);
