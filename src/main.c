@@ -147,6 +147,9 @@ void us_hall_func(void *d0, void *d1, void *d2) {
     dev[0] = &hall1;
     dev[1] = &hall2;
 	// bool set_update = false;
+	CO_LOCK_OD();
+	OD_halSensorEnable = 1;
+	CO_UNLOCK_OD();
     while(us_hall_loop) {
 		//set_update = false;
 		for (int i=0;i<2;i++) {
@@ -167,6 +170,9 @@ void us_hall_func(void *d0, void *d1, void *d2) {
 		}
         k_sleep(K_MSEC(OD_halSensorPeriode));
     }
+	CO_LOCK_OD();
+	OD_halSensorEnable = 0;
+	CO_UNLOCK_OD();
 }
 
 // Enable hall thread
@@ -174,11 +180,11 @@ static CO_SDO_abortCode_t odf_2102(CO_ODF_arg_t *odf_arg)
 {
 	LOG_DBG("odf_2102 function");
 	if (odf_arg->reading) {
-		LOG_INF("Read SDO 0x2102\n");
+		LOG_INF("Read SDO 0x2102");
 		return CO_SDO_AB_NONE;
 	}
 
-	LOG_INF("Write SDO 0x2102\n");
+	LOG_INF("Write SDO 0x2102");
 	uint8_t value;
 
 	if (odf_arg->data == NULL) {
@@ -196,7 +202,7 @@ int hall_enable(uint8_t value)
 {
 	int err;
 	
-	LOG_DBG("Write SDO 0x2102\n");
+	LOG_DBG("Write SDO 0x2102");
 	if (!gpio_is_ready_dt(&hall_sw)) {
 		LOG_ERR("The hall switch pin GPIO port is not ready.\n");
 		return -1;
@@ -213,9 +219,9 @@ int hall_enable(uint8_t value)
                                  us_hall_func,
                                  NULL, NULL, NULL,
                                  K_LOWEST_APPLICATION_THREAD_PRIO, 0, K_NO_WAIT);
-		CO_LOCK_OD();
-		OD_halSensorEnable = 1;
-		CO_UNLOCK_OD();
+		// CO_LOCK_OD();
+		// OD_halSensorEnable = 1;
+		// CO_UNLOCK_OD();
 	} else {
 		us_hall_loop = false;
 		err = gpio_pin_set_dt(&hall_sw, 0);
@@ -223,9 +229,6 @@ int hall_enable(uint8_t value)
 			LOG_ERR("Setting hall switch GPIO pin level failed: %d\n", err);
     		return -1;
 		}
-		CO_LOCK_OD();
-		OD_halSensorEnable = 0;
-		CO_UNLOCK_OD();
     }
     return 0;
 }
