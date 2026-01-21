@@ -86,7 +86,7 @@ static void config_leds(CO_NMT_t *nmt)
 	int err;
 
 	if (!led_green_gpio.port) {
-		LOG_INF("Green LED not available");
+		LOG_DBG("Green LED not available");
 	} else if (!gpio_is_ready_dt(&led_green_gpio)) {
 		LOG_ERR("Green LED device not ready");
 		led_green_gpio.port = NULL;
@@ -100,7 +100,7 @@ static void config_leds(CO_NMT_t *nmt)
 	}
 
 	if (!led_red_gpio.port) {
-		LOG_INF("Red LED not available");
+		LOG_DBG("Red LED not available");
 	} else if (!gpio_is_ready_dt(&led_red_gpio)) {
 		LOG_ERR("Red LED device not ready");
 		led_red_gpio.port = NULL;
@@ -140,7 +140,9 @@ static void config_powerstates()
 	}
 }
 
+// us_hall_func
 void us_hall_func(void *d0, void *d1, void *d2) {
+	LOG_DBG("start us_hall_func");
     const struct gpio_dt_spec *dev[2];
     dev[0] = &hall1;
     dev[1] = &hall2;
@@ -170,6 +172,7 @@ void us_hall_func(void *d0, void *d1, void *d2) {
 // Enable hall thread
 static CO_SDO_abortCode_t odf_2102(CO_ODF_arg_t *odf_arg)
 {
+	LOG_DBG("odf_2102 function");
 	if (odf_arg->reading) {
 		LOG_INF("Read SDO 0x2102\n");
 		return CO_SDO_AB_NONE;
@@ -193,6 +196,7 @@ int hall_enable(uint8_t value)
 {
 	int err;
 	
+	LOG_DBG("Write SDO 0x2102\n");
 	if (!gpio_is_ready_dt(&hall_sw)) {
 		LOG_ERR("The hall switch pin GPIO port is not ready.\n");
 		return -1;
