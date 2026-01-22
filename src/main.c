@@ -103,7 +103,8 @@ static _thread_t valve_thread[2];
 static k_tid_t hall_tid;
 static k_tid_t valve_tid[2];
 static bool hall_value[2] = {false};
-static uint8_t *valve_cmd[2] = {NULL};
+static uint8_t valve_cmd[2] = {0};
+static uint8_t *valve_cmd_ptr[2] = {NULL};
 static bool valve_running[2] = {false};
 
 
@@ -353,10 +354,19 @@ static CO_SDO_abortCode_t odf_2108(CO_ODF_arg_t *odf_arg)
 	if (odf_arg->subIndex == 0U) {
 		return CO_SDO_AB_GENERAL;
 	}
+	if (odf_arg->subIndex > 2) {
+		LOG_ERR("SubIndex not possible");
+		return CO_SDO_AB_GENERAL;
+	}
 
 	uint8_t *value = k_malloc(1);
-	*value = *odf_arg->data;
-	valve_cmd[odf_arg->subIndex] = value;
+	if (value == NULL) {
+		LOG_ERR("Failed to alloc memory for valve process");
+		return CO_SDO_AB_GENERAL;
+	}
+	*value = *(odf_arg->data);
+	valve_cmd[(odf_arg->subIndex)-1] = value;
+	valve_cmd_ptr[(odf_arg->subIndex)-1] = &valve_cmd[(odf_arg->subIndex)-1];
 	
 	return CO_SDO_AB_NONE;
 }
@@ -401,15 +411,15 @@ int start_valve_routine() {
 		if (valve_running[i]) {
 			continue;
 		}
-		if (valve_cmd[i] == NULL) {
+		if (valve_cmd_ptr[i] == NULL) {
 			continue;
 		}
 		valve_tid[i] = k_thread_create(&valve_thread[i], valve_stack_area[i],
                                  K_THREAD_STACK_SIZEOF(valve_stack_area[i]),
                                  valve_func,
-                                 &i, valve_cmd[i], NULL,
+                                 &i, valve_cmd_ptr[i], NULL,
                                  K_LOWEST_APPLICATION_THREAD_PRIO, 0, K_NO_WAIT);
-		valve_cmd[i] = NULL;
+		valve_cmd_ptr[i] = NULL;
 	}
     return 0;
 }
@@ -556,7 +566,7 @@ int set_relais() {
 }
 
 void set_valves() {
-	if (valve_cmd[0] != NULL || valve_cmd[1] != NULL) {
+	if (valve_cmd_ptr[0] != NULL || valve_cmd_ptr[1] != NULL) {
 		start_valve_routine();
 	}
 }
