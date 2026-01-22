@@ -348,6 +348,7 @@ static CO_SDO_abortCode_t odf_2106(CO_ODF_arg_t *odf_arg)
 // Configure valve state
 static CO_SDO_abortCode_t odf_2108(CO_ODF_arg_t *odf_arg)
 {
+	LOG_DBG("odf_2108: start func");
 	if (odf_arg->data == NULL) {
 		return CO_SDO_AB_GENERAL;
 	}
@@ -358,11 +359,13 @@ static CO_SDO_abortCode_t odf_2108(CO_ODF_arg_t *odf_arg)
 		LOG_ERR("SubIndex not possible");
 		return CO_SDO_AB_GENERAL;
 	}
+	LOG_DBG("odf_2108: set value");
 	uint8_t value;
 	value = *odf_arg->data;
 	valve_cmd[(odf_arg->subIndex)-1] = value;
 	valve_cmd_ptr[(odf_arg->subIndex)-1] = &valve_cmd[(odf_arg->subIndex)-1];
 	
+	LOG_DBG("odf_2108: return");
 	return CO_SDO_AB_NONE;
 }
 
@@ -409,6 +412,7 @@ int start_valve_routine() {
 		if (valve_cmd_ptr[i] == NULL) {
 			continue;
 		}
+		LOG_DBG("start_valve_routine: k_thread_create");
 		valve_tid[i] = k_thread_create(&valve_thread[i], valve_stack_area[i],
                                  K_THREAD_STACK_SIZEOF(valve_stack_area[i]),
                                  valve_func,
@@ -457,7 +461,6 @@ int main(void)
 #endif /* CONFIG_CANOPENNODE_STORAGE */
 
 	OD_powerOnCounter++;
-	int task_wdt_id = task_wdt_add(1000u, task_wdt_callback,(void *)k_current_get());
 
 	while (reset != CO_RESET_APP) {
 		elapsed =  0U; /* milliseconds */
@@ -493,7 +496,6 @@ int main(void)
 		CO_CANsetNormalMode(CO->CANmodule[0]);
 
 		while (true) {
-			task_wdt_feed(task_wdt_id);
 			timeout = 1U; /* default timeout in milliseconds */
 			timestamp = k_uptime_get();
 			reset = CO_process(CO, (uint16_t)elapsed, &timeout);
@@ -564,6 +566,7 @@ int set_relais() {
 
 void set_valves() {
 	if (valve_cmd_ptr[0] != NULL || valve_cmd_ptr[1] != NULL) {
+		LOG_DBG("start start_valve_routine");
 		start_valve_routine();
 	}
 }
