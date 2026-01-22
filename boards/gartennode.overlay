@@ -9,8 +9,7 @@
 
 	hall_sw: hall_sw {
 		compatible = "power-switch";
-		/* using built-in LED pin for demonstration */
-		gpios = <&gpioa 0 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH)>;
+		gpios = <&gpioa 6 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH)>;
         status = "okay";
 	};
 

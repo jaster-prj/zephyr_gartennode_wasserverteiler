@@ -32,27 +32,45 @@ LOG_MODULE_REGISTER(app);
 #if !DT_NODE_EXISTS(DT_NODELABEL(hall_sw))
 #error "Overlay for hall_sw output node not properly defined."
 #endif
+#if !DT_NODE_EXISTS(DT_NODELABEL(hall1))
+#error "Overlay for hall1 output node not properly defined."
+#endif
+#if !DT_NODE_EXISTS(DT_NODELABEL(hall2))
+#error "Overlay for hall2 output node not properly defined."
+#endif
+#if !DT_NODE_EXISTS(DT_NODELABEL(relais1_sw))
+#error "Overlay for relais1_sw output node not properly defined."
+#endif
+#if !DT_NODE_EXISTS(DT_NODELABEL(relais2_sw))
+#error "Overlay for relais2_sw output node not properly defined."
+#endif
+#if !DT_NODE_EXISTS(DT_NODELABEL(relais3_sw))
+#error "Overlay for relais3_sw output node not properly defined."
+#endif
+#if !DT_NODE_EXISTS(DT_NODELABEL(relais4_sw))
+#error "Overlay for relais4_sw output node not properly defined."
+#endif
 
-static const struct gpio_dt_spec hall_sw =
+static struct gpio_dt_spec hall_sw =
 	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(hall_sw), gpios, {0});
-static const struct gpio_dt_spec hall1 =
+static struct gpio_dt_spec hall1 =
 	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(hall1), gpios, {0});
-static const struct gpio_dt_spec hall2 =
+static struct gpio_dt_spec hall2 =
 	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(hall2), gpios, {0});
-static const struct gpio_dt_spec relais1_sw =
+static struct gpio_dt_spec relais1_sw =
 	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(relais1_sw), gpios, {0});
-static const struct gpio_dt_spec relais2_sw =
+static struct gpio_dt_spec relais2_sw =
 	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(relais2_sw), gpios, {0});
-static const struct gpio_dt_spec relais3_sw =
+static struct gpio_dt_spec relais3_sw =
 	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(relais3_sw), gpios, {0});
-static const struct gpio_dt_spec relais4_sw =
+static struct gpio_dt_spec relais4_sw =
 	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(relais4_sw), gpios, {0});
 
-static const struct gpio_dt_spec *halls[2] = {
+static struct gpio_dt_spec *halls[2] = {
 	&hall1,
 	&hall2
 };
-static const struct gpio_dt_spec *relais[4] = {
+static struct gpio_dt_spec *relais[4] = {
 	&relais1_sw,
 	&relais2_sw,
 	&relais3_sw,
@@ -184,6 +202,42 @@ static void config_powerstates()
 	err = gpio_pin_configure_dt(&hall_sw, GPIO_OUTPUT_INACTIVE);
 	if (err != 0) {
 		LOG_ERR("Configuring hall switch GPIO pin failed: %d\n", err);
+		return; // CO_SDO_AB_GENERAL;
+	}
+	if (!gpio_is_ready_dt(&relais1_sw)) {
+		LOG_ERR("The relais1_sw switch pin GPIO port is not ready.\n");
+		return; // CO_SDO_AB_GENERAL;
+	}
+	err = gpio_pin_configure_dt(&relais1_sw, GPIO_OUTPUT_INACTIVE);
+	if (err != 0) {
+		LOG_ERR("Configuring relais1_sw switch GPIO pin failed: %d\n", err);
+		return; // CO_SDO_AB_GENERAL;
+	}
+	if (!gpio_is_ready_dt(&relais2_sw)) {
+		LOG_ERR("The relais2_sw switch pin GPIO port is not ready.\n");
+		return; // CO_SDO_AB_GENERAL;
+	}
+	err = gpio_pin_configure_dt(&relais2_sw, GPIO_OUTPUT_INACTIVE);
+	if (err != 0) {
+		LOG_ERR("Configuring relais2_sw switch GPIO pin failed: %d\n", err);
+		return; // CO_SDO_AB_GENERAL;
+	}
+	if (!gpio_is_ready_dt(&relais3_sw)) {
+		LOG_ERR("The relais3_sw switch pin GPIO port is not ready.\n");
+		return; // CO_SDO_AB_GENERAL;
+	}
+	err = gpio_pin_configure_dt(&relais3_sw, GPIO_OUTPUT_INACTIVE);
+	if (err != 0) {
+		LOG_ERR("Configuring relais3_sw switch GPIO pin failed: %d\n", err);
+		return; // CO_SDO_AB_GENERAL;
+	}
+	if (!gpio_is_ready_dt(&relais4_sw)) {
+		LOG_ERR("The relais4_sw switch pin GPIO port is not ready.\n");
+		return; // CO_SDO_AB_GENERAL;
+	}
+	err = gpio_pin_configure_dt(&relais4_sw, GPIO_OUTPUT_INACTIVE);
+	if (err != 0) {
+		LOG_ERR("Configuring relais4_sw switch GPIO pin failed: %d\n", err);
 		return; // CO_SDO_AB_GENERAL;
 	}
 }
