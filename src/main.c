@@ -358,13 +358,8 @@ static CO_SDO_abortCode_t odf_2108(CO_ODF_arg_t *odf_arg)
 		LOG_ERR("SubIndex not possible");
 		return CO_SDO_AB_GENERAL;
 	}
-
-	uint8_t *value = k_malloc(1);
-	if (value == NULL) {
-		LOG_ERR("Failed to alloc memory for valve process");
-		return CO_SDO_AB_GENERAL;
-	}
-	*value = *(odf_arg->data);
+	uint8_t value;
+	value = *odf_arg->data;
 	valve_cmd[(odf_arg->subIndex)-1] = value;
 	valve_cmd_ptr[(odf_arg->subIndex)-1] = &valve_cmd[(odf_arg->subIndex)-1];
 	
@@ -462,6 +457,7 @@ int main(void)
 #endif /* CONFIG_CANOPENNODE_STORAGE */
 
 	OD_powerOnCounter++;
+	int task_wdt_id = task_wdt_add(1000u, task_wdt_callback,(void *)k_current_get());
 
 	while (reset != CO_RESET_APP) {
 		elapsed =  0U; /* milliseconds */
@@ -497,6 +493,7 @@ int main(void)
 		CO_CANsetNormalMode(CO->CANmodule[0]);
 
 		while (true) {
+			task_wdt_feed(task_wdt_id);
 			timeout = 1U; /* default timeout in milliseconds */
 			timestamp = k_uptime_get();
 			reset = CO_process(CO, (uint16_t)elapsed, &timeout);
