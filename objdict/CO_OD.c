@@ -28,7 +28,7 @@ struct sCO_OD_ROM CO_OD_ROM = {
 /*1007*/ 0x0000L,
 /*1008*/ {'J', 'P', ' ', 'G', 'a', 'r', 't', 'e', 'n', 'n', 'o', 'd', 'e', ' ', '[', 'W', 'a', 's', 's', 'e', 'r', 'v', 'e', 'r', 't', 'e', 'i', 'l', 'u', 'n', 'g', ']'},
 /*1009*/ {'1', '.', '0'},
-/*100a*/ {'0', '.', '0', '.', '4'},
+/*100a*/ {'0', '.', '0', '.', '5'},
 /*1012*/ 0x0000L,
 /*1014*/ 0x0080L,
 /*1015*/ 0x64,
@@ -80,6 +80,7 @@ struct sCO_OD_RAM CO_OD_RAM = {
 /*2105*/ {0, 0, 0, 0},
 /*2106*/ {0, 0, 0, 0},
 /*2107*/ {0x0L, 0x0L},
+/*2108*/ {0, 0},
 
            CO_OD_FIRST_LAST_WORD,
 };
@@ -103,183 +104,183 @@ struct sCO_OD_EEPROM CO_OD_EEPROM = {
 
 
 /*0x1018*/ const CO_OD_entryRecord_t OD_record1018[5] = {
-           {(void*)&CO_OD_ROM.identity.maxSubIndex, 0x05, 0x1 },
-           {(void*)&CO_OD_ROM.identity.vendorID, 0x85, 0x4 },
-           {(void*)&CO_OD_ROM.identity.productCode, 0x85, 0x4 },
-           {(void*)&CO_OD_ROM.identity.revisionNumber, 0x85, 0x4 },
-           {(void*)&CO_OD_ROM.identity.serialNumber, 0x85, 0x4 },
+           {(void*)&CO_OD_ROM.identity.maxSubIndex, 0x06, 0x1 },
+           {(void*)&CO_OD_ROM.identity.vendorID, 0x86, 0x4 },
+           {(void*)&CO_OD_ROM.identity.productCode, 0x86, 0x4 },
+           {(void*)&CO_OD_ROM.identity.revisionNumber, 0x86, 0x4 },
+           {(void*)&CO_OD_ROM.identity.serialNumber, 0x86, 0x4 },
 };
 
 /*0x1200*/ const CO_OD_entryRecord_t OD_record1200[3] = {
-           {(void*)&CO_OD_ROM.SDOServerParameter[0].maxSubIndex, 0x05, 0x1 },
-           {(void*)&CO_OD_ROM.SDOServerParameter[0].COB_IDClientToServer, 0x85, 0x4 },
-           {(void*)&CO_OD_ROM.SDOServerParameter[0].COB_IDServerToClient, 0x85, 0x4 },
+           {(void*)&CO_OD_ROM.SDOServerParameter[0].maxSubIndex, 0x06, 0x1 },
+           {(void*)&CO_OD_ROM.SDOServerParameter[0].COB_IDClientToServer, 0x86, 0x4 },
+           {(void*)&CO_OD_ROM.SDOServerParameter[0].COB_IDServerToClient, 0x86, 0x4 },
 };
 
 /*0x1400*/ const CO_OD_entryRecord_t OD_record1400[3] = {
-           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[0].maxSubIndex, 0x05, 0x1 },
-           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[0].COB_IDUsedByRPDO, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[0].transmissionType, 0x0d, 0x1 },
+           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[0].maxSubIndex, 0x06, 0x1 },
+           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[0].COB_IDUsedByRPDO, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[0].transmissionType, 0x0e, 0x1 },
 };
 
 /*0x1401*/ const CO_OD_entryRecord_t OD_record1401[3] = {
-           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[1].maxSubIndex, 0x05, 0x1 },
-           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[1].COB_IDUsedByRPDO, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[1].transmissionType, 0x0d, 0x1 },
+           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[1].maxSubIndex, 0x06, 0x1 },
+           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[1].COB_IDUsedByRPDO, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[1].transmissionType, 0x0e, 0x1 },
 };
 
 /*0x1402*/ const CO_OD_entryRecord_t OD_record1402[3] = {
-           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[2].maxSubIndex, 0x05, 0x1 },
-           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[2].COB_IDUsedByRPDO, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[2].transmissionType, 0x0d, 0x1 },
+           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[2].maxSubIndex, 0x06, 0x1 },
+           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[2].COB_IDUsedByRPDO, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[2].transmissionType, 0x0e, 0x1 },
 };
 
 /*0x1403*/ const CO_OD_entryRecord_t OD_record1403[3] = {
-           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[3].maxSubIndex, 0x05, 0x1 },
-           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[3].COB_IDUsedByRPDO, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[3].transmissionType, 0x0d, 0x1 },
+           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[3].maxSubIndex, 0x06, 0x1 },
+           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[3].COB_IDUsedByRPDO, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOCommunicationParameter[3].transmissionType, 0x0e, 0x1 },
 };
 
 /*0x1600*/ const CO_OD_entryRecord_t OD_record1600[9] = {
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].numberOfMappedObjects, 0x0d, 0x1 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject1, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject2, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject3, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject4, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject5, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject6, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject7, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject8, 0x8d, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].numberOfMappedObjects, 0x0e, 0x1 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject1, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject2, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject3, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject4, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject5, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject6, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject7, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[0].mappedObject8, 0x8e, 0x4 },
 };
 
 /*0x1601*/ const CO_OD_entryRecord_t OD_record1601[9] = {
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].numberOfMappedObjects, 0x0d, 0x1 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject1, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject2, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject3, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject4, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject5, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject6, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject7, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject8, 0x8d, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].numberOfMappedObjects, 0x0e, 0x1 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject1, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject2, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject3, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject4, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject5, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject6, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject7, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[1].mappedObject8, 0x8e, 0x4 },
 };
 
 /*0x1602*/ const CO_OD_entryRecord_t OD_record1602[9] = {
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].numberOfMappedObjects, 0x0d, 0x1 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject1, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject2, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject3, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject4, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject5, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject6, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject7, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject8, 0x8d, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].numberOfMappedObjects, 0x0e, 0x1 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject1, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject2, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject3, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject4, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject5, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject6, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject7, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[2].mappedObject8, 0x8e, 0x4 },
 };
 
 /*0x1603*/ const CO_OD_entryRecord_t OD_record1603[9] = {
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].numberOfMappedObjects, 0x0d, 0x1 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject1, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject2, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject3, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject4, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject5, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject6, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject7, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject8, 0x8d, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].numberOfMappedObjects, 0x0e, 0x1 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject1, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject2, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject3, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject4, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject5, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject6, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject7, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.RPDOMappingParameter[3].mappedObject8, 0x8e, 0x4 },
 };
 
 /*0x1800*/ const CO_OD_entryRecord_t OD_record1800[7] = {
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[0].maxSubIndex, 0x05, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[0].COB_IDUsedByTPDO, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[0].transmissionType, 0x0d, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[0].inhibitTime, 0x8d, 0x2 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[0].compatibilityEntry, 0x05, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[0].eventTimer, 0x8d, 0x2 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[0].SYNCStartValue, 0x0d, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[0].maxSubIndex, 0x06, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[0].COB_IDUsedByTPDO, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[0].transmissionType, 0x0e, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[0].inhibitTime, 0x8e, 0x2 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[0].compatibilityEntry, 0x06, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[0].eventTimer, 0x8e, 0x2 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[0].SYNCStartValue, 0x0e, 0x1 },
 };
 
 /*0x1801*/ const CO_OD_entryRecord_t OD_record1801[7] = {
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[1].maxSubIndex, 0x05, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[1].COB_IDUsedByTPDO, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[1].transmissionType, 0x0d, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[1].inhibitTime, 0x8d, 0x2 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[1].compatibilityEntry, 0x05, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[1].eventTimer, 0x8d, 0x2 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[1].SYNCStartValue, 0x0d, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[1].maxSubIndex, 0x06, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[1].COB_IDUsedByTPDO, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[1].transmissionType, 0x0e, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[1].inhibitTime, 0x8e, 0x2 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[1].compatibilityEntry, 0x06, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[1].eventTimer, 0x8e, 0x2 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[1].SYNCStartValue, 0x0e, 0x1 },
 };
 
 /*0x1802*/ const CO_OD_entryRecord_t OD_record1802[7] = {
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[2].maxSubIndex, 0x05, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[2].COB_IDUsedByTPDO, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[2].transmissionType, 0x0d, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[2].inhibitTime, 0x8d, 0x2 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[2].compatibilityEntry, 0x05, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[2].eventTimer, 0x8d, 0x2 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[2].SYNCStartValue, 0x0d, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[2].maxSubIndex, 0x06, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[2].COB_IDUsedByTPDO, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[2].transmissionType, 0x0e, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[2].inhibitTime, 0x8e, 0x2 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[2].compatibilityEntry, 0x06, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[2].eventTimer, 0x8e, 0x2 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[2].SYNCStartValue, 0x0e, 0x1 },
 };
 
 /*0x1803*/ const CO_OD_entryRecord_t OD_record1803[7] = {
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[3].maxSubIndex, 0x05, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[3].COB_IDUsedByTPDO, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[3].transmissionType, 0x0d, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[3].inhibitTime, 0x8d, 0x2 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[3].compatibilityEntry, 0x05, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[3].eventTimer, 0x8d, 0x2 },
-           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[3].SYNCStartValue, 0x0d, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[3].maxSubIndex, 0x06, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[3].COB_IDUsedByTPDO, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[3].transmissionType, 0x0e, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[3].inhibitTime, 0x8e, 0x2 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[3].compatibilityEntry, 0x06, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[3].eventTimer, 0x8e, 0x2 },
+           {(void*)&CO_OD_ROM.TPDOCommunicationParameter[3].SYNCStartValue, 0x0e, 0x1 },
 };
 
 /*0x1a00*/ const CO_OD_entryRecord_t OD_record1a00[9] = {
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].numberOfMappedObjects, 0x0d, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject1, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject2, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject3, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject4, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject5, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject6, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject7, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject8, 0x8d, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].numberOfMappedObjects, 0x0e, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject1, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject2, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject3, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject4, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject5, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject6, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject7, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[0].mappedObject8, 0x8e, 0x4 },
 };
 
 /*0x1a01*/ const CO_OD_entryRecord_t OD_record1a01[9] = {
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].numberOfMappedObjects, 0x0d, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject1, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject2, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject3, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject4, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject5, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject6, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject7, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject8, 0x8d, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].numberOfMappedObjects, 0x0e, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject1, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject2, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject3, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject4, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject5, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject6, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject7, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[1].mappedObject8, 0x8e, 0x4 },
 };
 
 /*0x1a02*/ const CO_OD_entryRecord_t OD_record1a02[9] = {
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].numberOfMappedObjects, 0x0d, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject1, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject2, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject3, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject4, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject5, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject6, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject7, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject8, 0x8d, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].numberOfMappedObjects, 0x0e, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject1, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject2, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject3, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject4, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject5, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject6, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject7, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[2].mappedObject8, 0x8e, 0x4 },
 };
 
 /*0x1a03*/ const CO_OD_entryRecord_t OD_record1a03[9] = {
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].numberOfMappedObjects, 0x0d, 0x1 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject1, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject2, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject3, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject4, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject5, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject6, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject7, 0x8d, 0x4 },
-           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject8, 0x8d, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].numberOfMappedObjects, 0x0e, 0x1 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject1, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject2, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject3, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject4, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject5, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject6, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject7, 0x8e, 0x4 },
+           {(void*)&CO_OD_ROM.TPDOMappingParameter[3].mappedObject8, 0x8e, 0x4 },
 };
 
 /*******************************************************************************
    OBJECT DICTIONARY
 *******************************************************************************/
-const CO_OD_entry_t CO_OD[50] = {
+const CO_OD_entry_t CO_OD[51] = {
 
 {0x1000, 0x00, 0x85, 4, (void*)&CO_OD_ROM.deviceType},
 {0x1001, 0x00, 0x26, 1, (void*)&CO_OD_RAM.errorRegister},
@@ -331,5 +332,6 @@ const CO_OD_entry_t CO_OD[50] = {
 {0x2105, 0x04, 0x26, 1, (void*)&CO_OD_RAM.relaisState[0]},
 {0x2106, 0x04, 0x1a, 1, (void*)&CO_OD_RAM.relaisCmd[0]},
 {0x2107, 0x02, 0x26, 1, (void*)&CO_OD_RAM.valveState[0]},
+{0x2108, 0x02, 0x1a, 1, (void*)&CO_OD_RAM.valveCmd[0]},
 };
 // clang-format on

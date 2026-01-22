@@ -89,7 +89,7 @@
 /*******************************************************************************
    OBJECT DICTIONARY
 *******************************************************************************/
-   #define CO_OD_NoOfElements             50
+   #define CO_OD_NoOfElements             51
 
 
 /*******************************************************************************
@@ -500,6 +500,13 @@
         #define OD_2107_1_valveState_                               1
         #define OD_2107_2_valveState_                               2
 
+/*2108 */
+        #define OD_2108_valveCmd                                    0x2108
+
+        #define OD_2108_0_valveCmd_maxSubIndex                      0
+        #define OD_2108_1_valveCmd_                                 1
+        #define OD_2108_2_valveCmd_                                 2
+
 /*******************************************************************************
    STRUCTURES FOR VARIABLES IN DIFFERENT MEMORY LOCATIONS
 *******************************************************************************/
@@ -554,6 +561,7 @@ struct sCO_OD_RAM{
 /*2105      */ BOOLEAN         relaisState[4];
 /*2106      */ BOOLEAN         relaisCmd[4];
 /*2107      */ UNSIGNED8       valveState[2];
+/*2108      */ BOOLEAN         valveCmd[2];
 
                UNSIGNED32     LastWord;
 };
@@ -725,6 +733,11 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
         #define OD_valveState                                       CO_OD_RAM.valveState
         #define ODL_valveState_arrayLength                          2
         #define ODA_valveState_                                     0
+
+/*2108, Data Type: BOOLEAN, Array[2] */
+        #define OD_valveCmd                                         CO_OD_RAM.valveCmd
+        #define ODL_valveCmd_arrayLength                            2
+        #define ODA_valveCmd_                                       0
 
 #endif
 // clang-format on

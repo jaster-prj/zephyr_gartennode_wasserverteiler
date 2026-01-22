@@ -64,7 +64,7 @@
       <description />
       <accessFunctionPreCode />
     </CANopenObject>
-    <CANopenObject index="100a" name="Manufacturer software version" objectType="VAR" memoryType="ROM" dataType="0x09" accessType="const" PDOmapping="no" defaultValue="0.0.4" highValue="" lowValue="" subNumber="0" accessFunctionName="" disabled="false" TPDOdetectCOS="false">
+    <CANopenObject index="100a" name="Manufacturer software version" objectType="VAR" memoryType="ROM" dataType="0x09" accessType="const" PDOmapping="no" defaultValue="0.0.5" highValue="" lowValue="" subNumber="0" accessFunctionName="" disabled="false" TPDOdetectCOS="false">
       <description />
       <accessFunctionPreCode />
     </CANopenObject>
@@ -708,9 +708,22 @@
       </CANopenSubObject>
       <accessFunctionPreCode />
     </CANopenObject>
+    <CANopenObject index="2108" name="Valve cmd" objectType="ARRAY" memoryType="RAM" dataType="0x01" accessType="wo" PDOmapping="optional" defaultValue="" highValue="" lowValue="" subNumber="3" accessFunctionName="" disabled="false" TPDOdetectCOS="false">
+      <description />
+      <CANopenSubObject subIndex="00" name="max sub-index" objectType="VAR" dataType="0x05" accessType="ro" PDOmapping="optional" defaultValue="2" highValue="" lowValue="" TPDOdetectCOS="false">
+        <description />
+      </CANopenSubObject>
+      <CANopenSubObject subIndex="01" name="" objectType="VAR" dataType="0x01" accessType="wo" PDOmapping="optional" defaultValue="" highValue="" lowValue="" TPDOdetectCOS="false">
+        <description />
+      </CANopenSubObject>
+      <CANopenSubObject subIndex="02" name="" objectType="VAR" dataType="0x01" accessType="wo" PDOmapping="optional" defaultValue="" highValue="" lowValue="" TPDOdetectCOS="false">
+        <description />
+      </CANopenSubObject>
+      <accessFunctionPreCode />
+    </CANopenObject>
   </CANopenObjectList>
   <other>
-    <file fileCreator="" fileCreationDate="09-18-2019" fileCreationTime="2:52nachm." fileModifedBy="" fileMotifcationDate="01-20-2026" fileModificationTime="9:11nachm." fileVersion="1" fileRevision="1" exportFolder="" EdsFile="/mnt/Daten/Programmierung/zephyr/zephyr_gartennode_wasserverteiler/objdict/objdict.eds" />
+    <file fileCreator="" fileCreationDate="09-18-2019" fileCreationTime="2:52nachm." fileModifedBy="" fileMotifcationDate="01-22-2026" fileModificationTime="9:34vorm." fileVersion="1" fileRevision="1" exportFolder="" />
     <DeviceIdentity>
       <vendorName>Jaster Products</vendorName>
       <vendorNumber>0</vendorNumber>
