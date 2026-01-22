@@ -123,6 +123,11 @@ struct led_indicator {
 	gpio_pin_t pin;
 };
 
+typedef struct {
+	uint8_t nr;
+	uint8_t value;
+}valve_thread_params;
+
 /**
  * @brief Callback for setting LED indicator state.
  *
@@ -288,21 +293,23 @@ void hall_func(void *d0, void *d1, void *d2) {
 
 // valve func
 void valve_func(void *d0, void *d1, void *d2) {
-	int i = *(int *)d0;
-	valve_running[i] = true;
-	uint8_t *value = (uint8_t *)d1;
-	LOG_DBG("start valve_func for %d with %d",i,(uint8_t)*value);
-	uint8_t relais = (1<<(uint8_t)i) + (uint8_t)*value;
+	if (d0 == NULL) {
+		return;
+	}
+	valve_thread_params params = *(valve_thread_params *)d0;
+	k_free(d0);
+	valve_running[params.nr] = true;
+	LOG_DBG("start valve_func for %d with %d",params.nr,params.value);
+	uint8_t relais = (1<<params.nr) + params.value;
 	CO_LOCK_OD();
 	OD_relaisCmd[relais] = 1;
 	CO_UNLOCK_OD();
 	k_sleep(K_MSEC(20000));
 	CO_LOCK_OD();
 	OD_relaisCmd[relais] = 0;
-	OD_valveState[i] = (uint8_t)*value;
+	OD_valveState[params.nr] = params.value;
 	CO_UNLOCK_OD();
-	k_free(value);
-	valve_running[i] = false;
+	valve_running[params.nr] = false;
 }
 
 // Enable hall thread
@@ -412,11 +419,17 @@ int start_valve_routine() {
 		if (valve_cmd_ptr[i] == NULL) {
 			continue;
 		}
-		LOG_DBG("start_valve_routine: k_thread_create");
+		valve_thread_params *params = k_malloc(sizeof(valve_thread_params));
+		if (params == NULL) {
+			LOG_ERR("could not alloc memory");
+			continue;
+		}
+		params->nr = (uint8_t)i;
+		params->value = *valve_cmd_ptr[i];
 		valve_tid[i] = k_thread_create(&valve_thread[i], valve_stack_area[i],
                                  K_THREAD_STACK_SIZEOF(valve_stack_area[i]),
                                  valve_func,
-                                 &i, valve_cmd_ptr[i], NULL,
+                                 params, NULL, NULL,
                                  K_LOWEST_APPLICATION_THREAD_PRIO, 0, K_NO_WAIT);
 		valve_cmd_ptr[i] = NULL;
 	}
@@ -566,7 +579,6 @@ int set_relais() {
 
 void set_valves() {
 	if (valve_cmd_ptr[0] != NULL || valve_cmd_ptr[1] != NULL) {
-		LOG_DBG("start start_valve_routine");
 		start_valve_routine();
 	}
 }
