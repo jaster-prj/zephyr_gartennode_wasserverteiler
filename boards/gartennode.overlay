@@ -5,9 +5,7 @@
  */
 
 / {
-
-
-	hall_sw: hall_sw {
+	sensor_sw: sensor_sw {
 		compatible = "power-switch";
 		gpios = <&gpioa 6 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH)>;
         status = "okay";
@@ -15,13 +13,13 @@
 
 	buttons {
 		compatible = "gpio-keys";
-		hall1: hall1 {
+		sensor1: sensor1 {
 			gpios = <&gpioa 0 GPIO_ACTIVE_HIGH>;
-			label = "Hall1";
+			label = "Sensor1";
 		};
-		hall2: hall2 {
+		sensor2: sensor2 {
 			gpios = <&gpioa 1 GPIO_ACTIVE_HIGH>;
-			label = "Hall2";
+			label = "Sensor2";
 		};
 	};
 

@@ -89,7 +89,7 @@
 /*******************************************************************************
    OBJECT DICTIONARY
 *******************************************************************************/
-   #define CO_OD_NoOfElements             51
+   #define CO_OD_NoOfElements             54
 
 
 /*******************************************************************************
@@ -463,49 +463,68 @@
         #define OD_2101_powerOnCounter                              0x2101
 
 /*2102 */
-        #define OD_2102_halSensorEnable                             0x2102
+        #define OD_2102_sensorEnable                                0x2102
 
 /*2103 */
-        #define OD_2103_halSensorPeriode                            0x2103
+        #define OD_2103_sensorPeriode                               0x2103
 
 /*2104 */
-        #define OD_2104_halSensorMeasurement                        0x2104
+        #define OD_2104_sensorMeasurement                           0x2104
 
-        #define OD_2104_0_halSensorMeasurement_maxSubIndex          0
-        #define OD_2104_1_halSensorMeasurement_                     1
-        #define OD_2104_2_halSensorMeasurement_                     2
+        #define OD_2104_0_sensorMeasurement_maxSubIndex             0
+        #define OD_2104_1_sensorMeasurement_                        1
+        #define OD_2104_2_sensorMeasurement_                        2
 
 /*2105 */
-        #define OD_2105_relaisState                                 0x2105
+        #define OD_2105_sensorMapping                               0x2105
 
-        #define OD_2105_0_relaisState_maxSubIndex                   0
-        #define OD_2105_1_relaisState_                              1
-        #define OD_2105_2_relaisState_                              2
-        #define OD_2105_3_relaisState_                              3
-        #define OD_2105_4_relaisState_                              4
+        #define OD_2105_0_sensorMapping_maxSubIndex                 0
+        #define OD_2105_1_sensorMapping_                            1
+        #define OD_2105_2_sensorMapping_                            2
 
 /*2106 */
-        #define OD_2106_relaisCmd                                   0x2106
+        #define OD_2106_relaisState                                 0x2106
 
-        #define OD_2106_0_relaisCmd_maxSubIndex                     0
-        #define OD_2106_1_relaisCmd_                                1
-        #define OD_2106_2_relaisCmd_                                2
-        #define OD_2106_3_relaisCmd_                                3
-        #define OD_2106_4_relaisCmd_                                4
+        #define OD_2106_0_relaisState_maxSubIndex                   0
+        #define OD_2106_1_relaisState_                              1
+        #define OD_2106_2_relaisState_                              2
+        #define OD_2106_3_relaisState_                              3
+        #define OD_2106_4_relaisState_                              4
 
 /*2107 */
-        #define OD_2107_valveState                                  0x2107
+        #define OD_2107_relaisCmd                                   0x2107
 
-        #define OD_2107_0_valveState_maxSubIndex                    0
-        #define OD_2107_1_valveState_                               1
-        #define OD_2107_2_valveState_                               2
+        #define OD_2107_0_relaisCmd_maxSubIndex                     0
+        #define OD_2107_1_relaisCmd_                                1
+        #define OD_2107_2_relaisCmd_                                2
+        #define OD_2107_3_relaisCmd_                                3
+        #define OD_2107_4_relaisCmd_                                4
 
 /*2108 */
-        #define OD_2108_valveCmd                                    0x2108
+        #define OD_2108_valveState                                  0x2108
 
-        #define OD_2108_0_valveCmd_maxSubIndex                      0
-        #define OD_2108_1_valveCmd_                                 1
-        #define OD_2108_2_valveCmd_                                 2
+        #define OD_2108_0_valveState_maxSubIndex                    0
+        #define OD_2108_1_valveState_                               1
+        #define OD_2108_2_valveState_                               2
+
+/*2109 */
+        #define OD_2109_valveCmd                                    0x2109
+
+        #define OD_2109_0_valveCmd_maxSubIndex                      0
+        #define OD_2109_1_valveCmd_                                 1
+        #define OD_2109_2_valveCmd_                                 2
+
+/*2110 */
+        #define OD_2110_valveRoutineTime                            0x2110
+
+/*2111 */
+        #define OD_2111_valveMapping                                0x2111
+
+        #define OD_2111_0_valveMapping_maxSubIndex                  0
+        #define OD_2111_1_valveMapping_                             1
+        #define OD_2111_2_valveMapping_                             2
+        #define OD_2111_3_valveMapping_                             3
+        #define OD_2111_4_valveMapping_                             4
 
 /*******************************************************************************
    STRUCTURES FOR VARIABLES IN DIFFERENT MEMORY LOCATIONS
@@ -522,7 +541,7 @@ struct sCO_OD_ROM{
 /*1007      */ UNSIGNED32      synchronousWindowLength;
 /*1008      */ VISIBLE_STRING  manufacturerDeviceName[32];
 /*1009      */ VISIBLE_STRING  manufacturerHardwareVersion[3];
-/*100a      */ VISIBLE_STRING  manufacturerSoftwareVersion[5];
+/*100a      */ VISIBLE_STRING  manufacturerSoftwareVersion[6];
 /*1012      */ UNSIGNED32      COB_ID_TIME;
 /*1014      */ UNSIGNED32      COB_ID_EMCY;
 /*1015      */ UNSIGNED16      inhibitTimeEMCY;
@@ -555,13 +574,13 @@ struct sCO_OD_RAM{
 /*1f56      */ UNSIGNED32      programSoftwareIdentification[1];
 /*1f57      */ UNSIGNED32      flashStatusIdentification[1];
 /*2100      */ OCTET_STRING    errorStatusBits[10];
-/*2102      */ UNSIGNED8       halSensorEnable;
-/*2103      */ UNSIGNED32      halSensorPeriode;
-/*2104      */ BOOLEAN         halSensorMeasurement[2];
-/*2105      */ BOOLEAN         relaisState[4];
-/*2106      */ BOOLEAN         relaisCmd[4];
-/*2107      */ UNSIGNED8       valveState[2];
-/*2108      */ BOOLEAN         valveCmd[2];
+/*2102      */ BOOLEAN         sensorEnable;
+/*2103      */ UNSIGNED32      sensorPeriode;
+/*2104      */ BOOLEAN         sensorMeasurement[2];
+/*2106      */ BOOLEAN         relaisState[4];
+/*2107      */ BOOLEAN         relaisCmd[4];
+/*2108      */ UNSIGNED8       valveState[2];
+/*2109      */ BOOLEAN         valveCmd[2];
 
                UNSIGNED32     LastWord;
 };
@@ -571,6 +590,9 @@ struct sCO_OD_EEPROM{
                UNSIGNED32     FirstWord;
 
 /*2101      */ UNSIGNED32      powerOnCounter;
+/*2105      */ UNSIGNED8       sensorMapping[2];
+/*2110      */ UNSIGNED32      valveRoutineTime;
+/*2111      */ UNSIGNED8       valveMapping[4];
 
                UNSIGNED32     LastWord;
 };
@@ -618,7 +640,7 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
 
 /*100a, Data Type: VISIBLE_STRING */
         #define OD_manufacturerSoftwareVersion                      CO_OD_ROM.manufacturerSoftwareVersion
-        #define ODL_manufacturerSoftwareVersion_stringLength        5
+        #define ODL_manufacturerSoftwareVersion_stringLength        6
 
 /*1010, Data Type: UNSIGNED32, Array[1] */
         #define OD_storeParameters                                  CO_OD_RAM.storeParameters
@@ -708,36 +730,49 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
 /*2101, Data Type: UNSIGNED32 */
         #define OD_powerOnCounter                                   CO_OD_EEPROM.powerOnCounter
 
-/*2102, Data Type: UNSIGNED8 */
-        #define OD_halSensorEnable                                  CO_OD_RAM.halSensorEnable
+/*2102, Data Type: BOOLEAN */
+        #define OD_sensorEnable                                     CO_OD_RAM.sensorEnable
 
 /*2103, Data Type: UNSIGNED32 */
-        #define OD_halSensorPeriode                                 CO_OD_RAM.halSensorPeriode
+        #define OD_sensorPeriode                                    CO_OD_RAM.sensorPeriode
 
 /*2104, Data Type: BOOLEAN, Array[2] */
-        #define OD_halSensorMeasurement                             CO_OD_RAM.halSensorMeasurement
-        #define ODL_halSensorMeasurement_arrayLength                2
-        #define ODA_halSensorMeasurement_                           0
+        #define OD_sensorMeasurement                                CO_OD_RAM.sensorMeasurement
+        #define ODL_sensorMeasurement_arrayLength                   2
+        #define ODA_sensorMeasurement_                              0
 
-/*2105, Data Type: BOOLEAN, Array[4] */
+/*2105, Data Type: UNSIGNED8, Array[2] */
+        #define OD_sensorMapping                                    CO_OD_EEPROM.sensorMapping
+        #define ODL_sensorMapping_arrayLength                       2
+        #define ODA_sensorMapping_                                  0
+
+/*2106, Data Type: BOOLEAN, Array[4] */
         #define OD_relaisState                                      CO_OD_RAM.relaisState
         #define ODL_relaisState_arrayLength                         4
         #define ODA_relaisState_                                    0
 
-/*2106, Data Type: BOOLEAN, Array[4] */
+/*2107, Data Type: BOOLEAN, Array[4] */
         #define OD_relaisCmd                                        CO_OD_RAM.relaisCmd
         #define ODL_relaisCmd_arrayLength                           4
         #define ODA_relaisCmd_                                      0
 
-/*2107, Data Type: UNSIGNED8, Array[2] */
+/*2108, Data Type: UNSIGNED8, Array[2] */
         #define OD_valveState                                       CO_OD_RAM.valveState
         #define ODL_valveState_arrayLength                          2
         #define ODA_valveState_                                     0
 
-/*2108, Data Type: BOOLEAN, Array[2] */
+/*2109, Data Type: BOOLEAN, Array[2] */
         #define OD_valveCmd                                         CO_OD_RAM.valveCmd
         #define ODL_valveCmd_arrayLength                            2
         #define ODA_valveCmd_                                       0
+
+/*2110, Data Type: UNSIGNED32 */
+        #define OD_valveRoutineTime                                 CO_OD_EEPROM.valveRoutineTime
+
+/*2111, Data Type: UNSIGNED8, Array[4] */
+        #define OD_valveMapping                                     CO_OD_EEPROM.valveMapping
+        #define ODL_valveMapping_arrayLength                        4
+        #define ODA_valveMapping_                                   0
 
 #endif
 // clang-format on
