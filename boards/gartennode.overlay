@@ -7,46 +7,53 @@
 / {
 	sensor_sw: sensor_sw {
 		compatible = "power-switch";
-		gpios = <&gpioa 6 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH)>;
+		gpios = <&gpioa 5 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH)>;
         status = "okay";
 	};
 
 	buttons {
 		compatible = "gpio-keys";
 		sensor1: sensor1 {
-			gpios = <&gpioa 0 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpioa 6 GPIO_ACTIVE_HIGH>;
 			label = "Sensor1";
 		};
 		sensor2: sensor2 {
-			gpios = <&gpioa 1 GPIO_ACTIVE_HIGH>;
+			gpios = <&gpioa 7 GPIO_ACTIVE_HIGH>;
 			label = "Sensor2";
 		};
 	};
 
-	relais1_sw: relais1_sw {
+	relaypw_sw: relaypw_sw {
+		compatible = "power-switch";
+		/* using built-in LED pin for demonstration */
+		gpios = <&gpioa 0 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH)>;
+        status = "okay";
+	};
+
+	relay1_sw: relay1_sw {
+		compatible = "power-switch";
+		/* using built-in LED pin for demonstration */
+		gpios = <&gpioa 1 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH)>;
+        status = "okay";
+	};
+
+	relay2_sw: relay2_sw {
 		compatible = "power-switch";
 		/* using built-in LED pin for demonstration */
 		gpios = <&gpioa 2 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH)>;
         status = "okay";
 	};
 
-	relais2_sw: relais2_sw {
+	relay3_sw: relay3_sw {
 		compatible = "power-switch";
 		/* using built-in LED pin for demonstration */
 		gpios = <&gpioa 3 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH)>;
         status = "okay";
 	};
-
-	relais3_sw: relais3_sw {
+	relay4_sw: relay4_sw {
 		compatible = "power-switch";
 		/* using built-in LED pin for demonstration */
 		gpios = <&gpioa 4 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH)>;
-        status = "okay";
-	};
-	relais4_sw: relais4_sw {
-		compatible = "power-switch";
-		/* using built-in LED pin for demonstration */
-		gpios = <&gpioa 5 (GPIO_PULL_DOWN | GPIO_ACTIVE_HIGH)>;
         status = "okay";
 	};
 

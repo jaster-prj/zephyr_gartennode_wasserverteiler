@@ -3,17 +3,20 @@
 
 #include <zephyr/kernel.h>
 
-#if !DT_NODE_EXISTS(DT_NODELABEL(relais1_sw))
-#error "Overlay for relais1_sw output node not properly defined."
+#if !DT_NODE_EXISTS(DT_NODELABEL(relaypw_sw))
+#error "Overlay for relaypw_sw output node not properly defined."
 #endif
-#if !DT_NODE_EXISTS(DT_NODELABEL(relais2_sw))
-#error "Overlay for relais2_sw output node not properly defined."
+#if !DT_NODE_EXISTS(DT_NODELABEL(relay1_sw))
+#error "Overlay for relay1_sw output node not properly defined."
 #endif
-#if !DT_NODE_EXISTS(DT_NODELABEL(relais3_sw))
-#error "Overlay for relais3_sw output node not properly defined."
+#if !DT_NODE_EXISTS(DT_NODELABEL(relay2_sw))
+#error "Overlay for relay2_sw output node not properly defined."
 #endif
-#if !DT_NODE_EXISTS(DT_NODELABEL(relais4_sw))
-#error "Overlay for relais4_sw output node not properly defined."
+#if !DT_NODE_EXISTS(DT_NODELABEL(relay3_sw))
+#error "Overlay for relay3_sw output node not properly defined."
+#endif
+#if !DT_NODE_EXISTS(DT_NODELABEL(relay4_sw))
+#error "Overlay for relay4_sw output node not properly defined."
 #endif
 
 int relais_init(void);

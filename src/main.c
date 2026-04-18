@@ -10,6 +10,8 @@
 #include <zephyr/settings/settings.h>
 #include <zephyr/drivers/sensor.h>
 #include <zephyr/drivers/sensor/w1_sensor.h>
+#include <zephyr/storage/flash_map.h>
+#include <zephyr/sys/printk.h>
 #include <canopennode.h>
 #include "valve.h"
 #include "relais.h"
@@ -26,6 +28,9 @@ static CO_SDO_abortCode_t odf_2105(CO_ODF_arg_t *odf_arg);
 static CO_SDO_abortCode_t odf_2107(CO_ODF_arg_t *odf_arg);
 static CO_SDO_abortCode_t odf_2109(CO_ODF_arg_t *odf_arg);
 static CO_SDO_abortCode_t odf_2111(CO_ODF_arg_t *odf_arg);
+
+#define STORAGE_PARTITION	storage_partition
+#define STORAGE_PARTITION_ID	FIXED_PARTITION_ID(STORAGE_PARTITION)
 
 #define CAN_INTERFACE DEVICE_DT_GET(DT_CHOSEN(zephyr_canbus))
 #define CAN_BITRATE (DT_PROP_OR(DT_CHOSEN(zephyr_canbus), bitrate, \
@@ -208,11 +213,25 @@ int main(void)
 	}
 
 #ifdef CONFIG_CANOPENNODE_STORAGE
+	LOG_INF("Initializing settings subsystem\n");
 	ret = settings_subsys_init();
 	if (ret) {
 		LOG_ERR("failed to initialize settings subsystem (err = %d)",
 			ret);
-		return 0;
+		int error = 0;
+		const struct flash_area *storage = NULL;
+		// Open the partition
+		error = flash_area_open(FIXED_PARTITION_ID(storage_partition), &storage);
+		if (error < 0) {
+			return error;
+		}
+
+		// Erase the first sector (e.g., 4KB)
+		error = flash_area_erase(storage, 0, FIXED_PARTITION_SIZE(storage_partition));
+		if (error < 0) {
+			return error;
+		}
+		sys_reboot(SYS_REBOOT_COLD);
 	}
 
 	ret = settings_load();

@@ -5,20 +5,23 @@
 
 LOG_MODULE_REGISTER(relais);
 
-static struct gpio_dt_spec relais1_sw =
-	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(relais1_sw), gpios, {0});
-static struct gpio_dt_spec relais2_sw =
-	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(relais2_sw), gpios, {0});
-static struct gpio_dt_spec relais3_sw =
-	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(relais3_sw), gpios, {0});
-static struct gpio_dt_spec relais4_sw =
-	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(relais4_sw), gpios, {0});
+
+static struct gpio_dt_spec relaypw_sw =
+	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(relaypw_sw), gpios, {0});
+static struct gpio_dt_spec relay1_sw =
+	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(relay1_sw), gpios, {0});
+static struct gpio_dt_spec relay2_sw =
+	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(relay2_sw), gpios, {0});
+static struct gpio_dt_spec relay3_sw =
+	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(relay3_sw), gpios, {0});
+static struct gpio_dt_spec relay4_sw =
+	GPIO_DT_SPEC_GET_OR(DT_NODELABEL(relay4_sw), gpios, {0});
 
 static struct gpio_dt_spec *relais[4] = {
-	&relais1_sw,
-	&relais2_sw,
-	&relais3_sw,
-	&relais4_sw
+	&relay1_sw,
+	&relay2_sw,
+	&relay3_sw,
+	&relay4_sw
 };
 
 /**
@@ -28,6 +31,15 @@ static struct gpio_dt_spec *relais[4] = {
  */
 int relais_init(void) {
     int err;
+	if (!gpio_is_ready_dt(&relaypw_sw)) {
+		LOG_ERR("The relaypw_sw switch pin GPIO port is not ready.\n");
+		return -1;
+	}
+	err = gpio_pin_configure_dt(&relaypw_sw, GPIO_OUTPUT_ACTIVE);
+	if (err != 0) {
+		LOG_ERR("Configuring relaypw_sw switch GPIO pin failed: %d\n", err);
+		return -1;
+	}
     for (int i = 0; i < 4; i++) {
         if (!gpio_is_ready_dt(relais[i])) {
             LOG_ERR("The relais%d_sw switch pin GPIO port is not ready.\n", i+1);
