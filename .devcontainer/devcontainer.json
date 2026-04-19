@@ -1,6 +1,6 @@
 {
   "name": "GARTENNODE Wasserverteiler",
-  "image": "ghcr.io/jaster-prj/devcontainer-zephyr-workspace:latest",
+  "image": "ghcr.io/jaster-prj/devcontainer-zephyr:latest",
   "runArgs": [
     "--name=Gartennode_Wasserverteiler_Devcontainer"
   ],

@@ -221,13 +221,13 @@ int main(void)
 		int error = 0;
 		const struct flash_area *storage = NULL;
 		// Open the partition
-		error = flash_area_open(FIXED_PARTITION_ID(storage_partition), &storage);
+		error = flash_area_open(PARTITION_ID(storage_partition), &storage);
 		if (error < 0) {
 			return error;
 		}
 
 		// Erase the first sector (e.g., 4KB)
-		error = flash_area_erase(storage, 0, FIXED_PARTITION_SIZE(storage_partition));
+		error = flash_area_erase(storage, 0, PARTITION_SIZE(storage_partition));
 		if (error < 0) {
 			return error;
 		}

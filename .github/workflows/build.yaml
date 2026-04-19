@@ -28,7 +28,7 @@ jobs:
           west zephyr-export
           /opt/venv/bin/python -m pip install -r zephyr/scripts/requirements.txt
       - name: Clone Application
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: './zephyr_workspace/app'
           submodules: recursive
@@ -36,10 +36,6 @@ jobs:
         working-directory: ./zephyr_workspace/app/custom_boards
         run: |
           ./link.sh
-      - name: patch git
-        working-directory: ./zephyr_workspace/zephyr
-        run: |
-          git apply ../.patch/gpio_pcf857x.patch
       - name: save gartennode.pem
         working-directory: ./zephyr_workspace/bootloader/mcuboot
         run: |
