@@ -5,11 +5,11 @@ FileRevision=1
 LastEDS=
 EDSVersion=4.0
 Description=
-CreationTime=2:52PM
+CreationTime=3:52PM
 CreationDate=09-18-2019
 CreatedBy=
-ModificationTime=2:52PM
-ModificationDate=01-23-2026
+ModificationTime=2:20PM
+ModificationDate=05-13-2026
 ModifiedBy=
 
 [DeviceInfo]
@@ -313,7 +313,7 @@ ObjectType=0x7
 ;StorageLocation=ROM
 DataType=0x0009
 AccessType=const
-DefaultValue=0.0.14
+DefaultValue=0.0.15
 PDOMapping=0
 
 [1010]
@@ -1772,7 +1772,7 @@ DefaultValue=0x00000001
 PDOMapping=0
 
 [ManufacturerObjects]
-SupportedObjects=12
+SupportedObjects=14
 1=0x2100
 2=0x2101
 3=0x2102
@@ -1785,6 +1785,8 @@ SupportedObjects=12
 10=0x2109
 11=0x2110
 12=0x2111
+13=0x2112
+14=0x2113
 
 [2100]
 ParameterName=Error status bits
@@ -1816,7 +1818,7 @@ PDOMapping=1
 [2103]
 ParameterName=Sensor periode
 ObjectType=0x7
-;StorageLocation=RAM
+;StorageLocation=EEPROM
 DataType=0x0007
 AccessType=rw
 DefaultValue=100
@@ -1874,18 +1876,18 @@ PDOMapping=0
 ParameterName=
 ObjectType=0x7
 ;StorageLocation=RAM
-DataType=0x0007
+DataType=0x0005
 AccessType=rw
-DefaultValue=
+DefaultValue=0
 PDOMapping=0
 
 [2105sub2]
 ParameterName=
 ObjectType=0x7
 ;StorageLocation=RAM
-DataType=0x0007
+DataType=0x0005
 AccessType=rw
-DefaultValue=
+DefaultValue=4
 PDOMapping=0
 
 [2106]
@@ -2086,7 +2088,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0005
 AccessType=rw
-DefaultValue=
+DefaultValue=0
 PDOMapping=0
 
 [2111sub2]
@@ -2095,7 +2097,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0005
 AccessType=rw
-DefaultValue=
+DefaultValue=1
 PDOMapping=0
 
 [2111sub3]
@@ -2104,7 +2106,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0005
 AccessType=rw
-DefaultValue=
+DefaultValue=2
 PDOMapping=0
 
 [2111sub4]
@@ -2113,6 +2115,24 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0005
 AccessType=rw
-DefaultValue=
+DefaultValue=3
+PDOMapping=0
+
+[2112]
+ParameterName=Touch enable
+ObjectType=0x7
+;StorageLocation=RAM
+DataType=0x0001
+AccessType=rw
+DefaultValue=0
+PDOMapping=1
+
+[2113]
+ParameterName=Touch Valve Index
+ObjectType=0x7
+;StorageLocation=EEPROM
+DataType=0x0005
+AccessType=wo
+DefaultValue=0
 PDOMapping=0
 

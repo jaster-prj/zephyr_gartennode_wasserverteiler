@@ -150,6 +150,16 @@ int sensor_enable(bool value)
 }
 
 /**
+ * @brief Check if sensor thread is enabled
+ *
+ * @return true if enabled, false otherwise
+ */
+bool sensor_enabled(void) {
+	return OD_sensorEnable == 1;
+}
+
+
+/**
  * @brief Sensor thread function
  *
  * @param d0 Unused

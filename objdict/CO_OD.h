@@ -55,7 +55,7 @@
    FILE INFO:
       FileName:     objdict.eds
       FileVersion:  1
-      CreationTime: 2:52PM
+      CreationTime: 3:52PM
       CreationDate: 09-18-2019
       CreatedBy:    
 ******************************************************************************/
@@ -89,7 +89,7 @@
 /*******************************************************************************
    OBJECT DICTIONARY
 *******************************************************************************/
-   #define CO_OD_NoOfElements             54
+   #define CO_OD_NoOfElements             56
 
 
 /*******************************************************************************
@@ -526,6 +526,12 @@
         #define OD_2111_3_valveMapping_                             3
         #define OD_2111_4_valveMapping_                             4
 
+/*2112 */
+        #define OD_2112_touchEnable                                 0x2112
+
+/*2113 */
+        #define OD_2113_touchValveIndex                             0x2113
+
 /*******************************************************************************
    STRUCTURES FOR VARIABLES IN DIFFERENT MEMORY LOCATIONS
 *******************************************************************************/
@@ -575,12 +581,12 @@ struct sCO_OD_RAM{
 /*1f57      */ UNSIGNED32      flashStatusIdentification[1];
 /*2100      */ OCTET_STRING    errorStatusBits[10];
 /*2102      */ BOOLEAN         sensorEnable;
-/*2103      */ UNSIGNED32      sensorPeriode;
 /*2104      */ BOOLEAN         sensorMeasurement[2];
 /*2106      */ BOOLEAN         relaisState[4];
 /*2107      */ BOOLEAN         relaisCmd[4];
 /*2108      */ UNSIGNED8       valveState[2];
 /*2109      */ BOOLEAN         valveCmd[2];
+/*2112      */ BOOLEAN         touchEnable;
 
                UNSIGNED32     LastWord;
 };
@@ -590,9 +596,11 @@ struct sCO_OD_EEPROM{
                UNSIGNED32     FirstWord;
 
 /*2101      */ UNSIGNED32      powerOnCounter;
+/*2103      */ UNSIGNED32      sensorPeriode;
 /*2105      */ UNSIGNED8       sensorMapping[2];
 /*2110      */ UNSIGNED32      valveRoutineTime;
 /*2111      */ UNSIGNED8       valveMapping[4];
+/*2113      */ UNSIGNED8       touchValveIndex;
 
                UNSIGNED32     LastWord;
 };
@@ -734,7 +742,7 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
         #define OD_sensorEnable                                     CO_OD_RAM.sensorEnable
 
 /*2103, Data Type: UNSIGNED32 */
-        #define OD_sensorPeriode                                    CO_OD_RAM.sensorPeriode
+        #define OD_sensorPeriode                                    CO_OD_EEPROM.sensorPeriode
 
 /*2104, Data Type: BOOLEAN, Array[2] */
         #define OD_sensorMeasurement                                CO_OD_RAM.sensorMeasurement
@@ -773,6 +781,12 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
         #define OD_valveMapping                                     CO_OD_EEPROM.valveMapping
         #define ODL_valveMapping_arrayLength                        4
         #define ODA_valveMapping_                                   0
+
+/*2112, Data Type: BOOLEAN */
+        #define OD_touchEnable                                      CO_OD_RAM.touchEnable
+
+/*2113, Data Type: UNSIGNED8 */
+        #define OD_touchValveIndex                                  CO_OD_EEPROM.touchValveIndex
 
 #endif
 // clang-format on

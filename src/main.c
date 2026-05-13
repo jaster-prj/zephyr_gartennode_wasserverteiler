@@ -17,6 +17,7 @@
 #include "relais.h"
 #include "watchdog.h"
 #include "sensor.h"
+#include "touch.h"
 #include "led.h"
 
 #define LOG_LEVEL CONFIG_CANOPEN_LOG_LEVEL

@@ -13,7 +13,7 @@
         <ProfileTechnology>CANopen</ProfileTechnology>
       </ISO15745Reference>
     </ProfileHeader>
-    <ProfileBody xsi:type="ProfileBody_Device_CANopen" formatName="CANopen" formatVersion="1.0" fileName="objdict.eds" fileCreator="" fileCreationDate="2019-09-18" fileCreationTime="14:52:00.0000000+01:00" fileModificationDate="2026-01-23" fileModificationTime="14:52:00.0000000+01:00" fileModifiedBy="" fileVersion="1" supportedLanguages="en">
+    <ProfileBody xsi:type="ProfileBody_Device_CANopen" formatName="CANopen" formatVersion="1.0" fileName="" fileCreator="" fileCreationDate="2019-09-18" fileCreationTime="15:52:00.0000000+02:00" fileModificationDate="2026-05-13" fileModificationTime="14:20:09.3882210+02:00" fileModifiedBy="" fileVersion="1" supportedLanguages="en">
       <DeviceIdentity>
         <vendorName readOnly="true">Jaster Products</vendorName>
         <vendorID>0</vendorID>
@@ -189,7 +189,7 @@
             <denotation>
               <label lang="en" />
             </denotation>
-            <defaultValue value="0.0.14" />
+            <defaultValue value="0.0.15" />
           </parameter>
           <parameter uniqueID="UID_PARAM_1010" access="readWrite">
             <label lang="en">Store parameters</label>
@@ -1911,6 +1911,22 @@
             </denotation>
             <defaultValue value="3" />
           </parameter>
+          <parameter uniqueID="UID_PARAM_2112" access="readWrite">
+            <label lang="en">Touch enable</label>
+            <description lang="en" />
+            <denotation>
+              <label lang="en" />
+            </denotation>
+            <defaultValue value="0" />
+          </parameter>
+          <parameter uniqueID="UID_PARAM_2113" access="write">
+            <label lang="en">Touch Valve Index</label>
+            <description lang="en" />
+            <denotation>
+              <label lang="en" />
+            </denotation>
+            <defaultValue value="0" />
+          </parameter>
         </parameterList>
       </ApplicationProcess>
     </ProfileBody>
@@ -1928,7 +1944,7 @@
         <ProfileTechnology>CANopen</ProfileTechnology>
       </ISO15745Reference>
     </ProfileHeader>
-    <ProfileBody xsi:type="ProfileBody_CommunicationNetwork_CANopen" formatName="CANopen" formatVersion="1.0" fileName="objdict.eds" fileCreator="" fileCreationDate="2019-09-18" fileCreationTime="14:52:00.0000000+01:00" fileModificationDate="2026-01-23" fileVersion="1" supportedLanguages="en">
+    <ProfileBody xsi:type="ProfileBody_CommunicationNetwork_CANopen" formatName="CANopen" formatVersion="1.0" fileName="" fileCreator="" fileCreationDate="2019-09-18" fileCreationTime="15:52:00.0000000+02:00" fileModificationDate="2026-05-13" fileVersion="1" supportedLanguages="en">
       <ApplicationLayers>
         <CANopenObjectList>
           <CANopenObject index="1000" name="Device type" objectType="7" dataType="0007" lowLimit="" highLimit="" accessType="ro" actualValue="" edseditor_extenstion_storagelocation="ROM" PDOmapping="no" uniqueIDRef="UID_PARAM_1000" />
@@ -2156,16 +2172,16 @@
           <CANopenObject index="2100" name="Error status bits" objectType="7" dataType="000A" lowLimit="" highLimit="" accessType="ro" actualValue="" edseditor_extenstion_storagelocation="RAM" PDOmapping="optional" uniqueIDRef="UID_PARAM_2100" />
           <CANopenObject index="2101" name="Power-on counter" objectType="7" dataType="0007" lowLimit="" highLimit="" accessType="ro" actualValue="" edseditor_extenstion_storagelocation="EEPROM" PDOmapping="optional" uniqueIDRef="UID_PARAM_2101" />
           <CANopenObject index="2102" name="Sensor enable" objectType="7" dataType="0001" lowLimit="" highLimit="" accessType="rw" actualValue="" edseditor_extenstion_storagelocation="RAM" PDOmapping="optional" uniqueIDRef="UID_PARAM_2102" />
-          <CANopenObject index="2103" name="Sensor periode" objectType="7" dataType="0007" lowLimit="" highLimit="" accessType="rw" actualValue="" edseditor_extenstion_storagelocation="RAM" PDOmapping="no" uniqueIDRef="UID_PARAM_2103" />
+          <CANopenObject index="2103" name="Sensor periode" objectType="7" dataType="0007" lowLimit="" highLimit="" accessType="rw" actualValue="" denotation="" edseditor_extenstion_storagelocation="EEPROM" PDOmapping="no" uniqueIDRef="UID_PARAM_2103" />
           <CANopenObject index="2104" name="Sensor measurement" objectType="8" dataType="0001" lowLimit="" highLimit="" accessType="ro" actualValue="" edseditor_extenstion_storagelocation="RAM" PDOmapping="optional" uniqueIDRef="UID_PARAM_2104" subNumber="3">
             <CANopenSubObject subIndex="0000" name="max sub-index" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="ro" actualValue="" PDOmapping="optional" uniqueIDRef="UID_PARAM_210400" />
             <CANopenSubObject subIndex="0001" name="" objectType="7" dataType="0001" lowLimit="" highLimit="" accessType="ro" actualValue="" PDOmapping="optional" uniqueIDRef="UID_PARAM_210401" />
             <CANopenSubObject subIndex="0002" name="" objectType="7" dataType="0001" lowLimit="" highLimit="" accessType="ro" actualValue="" PDOmapping="optional" uniqueIDRef="UID_PARAM_210402" />
           </CANopenObject>
-          <CANopenObject index="2105" name="Sensor mapping" objectType="8" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" denotation="" edseditor_extenstion_storagelocation="EEPROM" PDOmapping="no" uniqueIDRef="UID_PARAM_2105" subNumber="3">
+          <CANopenObject index="2105" name="Sensor mapping" objectType="8" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" edseditor_extenstion_storagelocation="EEPROM" PDOmapping="no" uniqueIDRef="UID_PARAM_2105" subNumber="3">
             <CANopenSubObject subIndex="0000" name="max sub-index" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="ro" actualValue="" PDOmapping="no" uniqueIDRef="UID_PARAM_210500" />
-            <CANopenSubObject subIndex="0001" name="" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" denotation="" PDOmapping="no" uniqueIDRef="UID_PARAM_210501" />
-            <CANopenSubObject subIndex="0002" name="" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" denotation="" PDOmapping="no" uniqueIDRef="UID_PARAM_210502" />
+            <CANopenSubObject subIndex="0001" name="" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" PDOmapping="no" uniqueIDRef="UID_PARAM_210501" />
+            <CANopenSubObject subIndex="0002" name="" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" PDOmapping="no" uniqueIDRef="UID_PARAM_210502" />
           </CANopenObject>
           <CANopenObject index="2106" name="Relais state" objectType="8" dataType="0001" lowLimit="" highLimit="" accessType="ro" actualValue="" edseditor_extenstion_storagelocation="RAM" PDOmapping="optional" uniqueIDRef="UID_PARAM_2106" subNumber="5">
             <CANopenSubObject subIndex="0000" name="max sub-index" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="ro" actualValue="" PDOmapping="optional" uniqueIDRef="UID_PARAM_210600" />
@@ -2191,14 +2207,16 @@
             <CANopenSubObject subIndex="0001" name="" objectType="7" dataType="0001" lowLimit="" highLimit="" accessType="wo" actualValue="" PDOmapping="optional" uniqueIDRef="UID_PARAM_210901" />
             <CANopenSubObject subIndex="0002" name="" objectType="7" dataType="0001" lowLimit="" highLimit="" accessType="wo" actualValue="" PDOmapping="optional" uniqueIDRef="UID_PARAM_210902" />
           </CANopenObject>
-          <CANopenObject index="2110" name="Valve routine time" objectType="7" dataType="0007" lowLimit="" highLimit="" accessType="rw" actualValue="" denotation="" edseditor_extenstion_storagelocation="EEPROM" PDOmapping="no" uniqueIDRef="UID_PARAM_2110" />
-          <CANopenObject index="2111" name="Valve mapping" objectType="8" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" denotation="" edseditor_extenstion_storagelocation="EEPROM" PDOmapping="no" uniqueIDRef="UID_PARAM_2111" subNumber="5">
+          <CANopenObject index="2110" name="Valve routine time" objectType="7" dataType="0007" lowLimit="" highLimit="" accessType="rw" actualValue="" edseditor_extenstion_storagelocation="EEPROM" PDOmapping="no" uniqueIDRef="UID_PARAM_2110" />
+          <CANopenObject index="2111" name="Valve mapping" objectType="8" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" edseditor_extenstion_storagelocation="EEPROM" PDOmapping="no" uniqueIDRef="UID_PARAM_2111" subNumber="5">
             <CANopenSubObject subIndex="0000" name="max sub-index" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="ro" actualValue="" PDOmapping="no" uniqueIDRef="UID_PARAM_211100" />
-            <CANopenSubObject subIndex="0001" name="" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" denotation="" PDOmapping="no" uniqueIDRef="UID_PARAM_211101" />
-            <CANopenSubObject subIndex="0002" name="" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" denotation="" PDOmapping="no" uniqueIDRef="UID_PARAM_211102" />
-            <CANopenSubObject subIndex="0003" name="" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" denotation="" PDOmapping="no" uniqueIDRef="UID_PARAM_211103" />
-            <CANopenSubObject subIndex="0004" name="" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" denotation="" PDOmapping="no" uniqueIDRef="UID_PARAM_211104" />
+            <CANopenSubObject subIndex="0001" name="" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" PDOmapping="no" uniqueIDRef="UID_PARAM_211101" />
+            <CANopenSubObject subIndex="0002" name="" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" PDOmapping="no" uniqueIDRef="UID_PARAM_211102" />
+            <CANopenSubObject subIndex="0003" name="" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" PDOmapping="no" uniqueIDRef="UID_PARAM_211103" />
+            <CANopenSubObject subIndex="0004" name="" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="rw" actualValue="" PDOmapping="no" uniqueIDRef="UID_PARAM_211104" />
           </CANopenObject>
+          <CANopenObject index="2112" name="Touch enable" objectType="7" dataType="0001" lowLimit="" highLimit="" accessType="rw" actualValue="" edseditor_extenstion_storagelocation="RAM" PDOmapping="optional" uniqueIDRef="UID_PARAM_2112" />
+          <CANopenObject index="2113" name="Touch Valve Index" objectType="7" dataType="0005" lowLimit="" highLimit="" accessType="wo" actualValue="" edseditor_extenstion_storagelocation="EEPROM" PDOmapping="no" uniqueIDRef="UID_PARAM_2113" />
         </CANopenObjectList>
         <dummyUsage>
           <dummy entry="Dummy0001=0" />

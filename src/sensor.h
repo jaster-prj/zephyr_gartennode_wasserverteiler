@@ -18,6 +18,7 @@ void sensor_mapping_update(void);
 int sensor_init(void);
 void sensor_func(void *d0, void *d1, void *d2);
 int sensor_enable(bool value);
+bool sensor_enabled(void);
 int sensor_process(void);
 
 #endif /* _SENSOR_H */

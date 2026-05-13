@@ -28,7 +28,7 @@ struct sCO_OD_ROM CO_OD_ROM = {
 /*1007*/ 0x0000L,
 /*1008*/ {'J', 'P', ' ', 'G', 'a', 'r', 't', 'e', 'n', 'n', 'o', 'd', 'e', ' ', '[', 'W', 'a', 's', 's', 'e', 'r', 'v', 'e', 'r', 't', 'e', 'i', 'l', 'u', 'n', 'g', ']'},
 /*1009*/ {'1', '.', '0'},
-/*100a*/ {'0', '.', '0', '.', '1', '4'},
+/*100a*/ {'0', '.', '0', '.', '1', '5'},
 /*1012*/ 0x0000L,
 /*1014*/ 0x0080L,
 /*1015*/ 0x64,
@@ -75,12 +75,12 @@ struct sCO_OD_RAM CO_OD_RAM = {
 /*1f57*/ {0x0000L},
 /*2100*/ {0x0L},
 /*2102*/ 0,
-/*2103*/ 0x0064L,
 /*2104*/ {0, 0},
 /*2106*/ {0, 0, 0, 0},
 /*2107*/ {0, 0, 0, 0},
 /*2108*/ {0x0L, 0x0L},
 /*2109*/ {0, 0},
+/*2112*/ 0,
 
            CO_OD_FIRST_LAST_WORD,
 };
@@ -91,9 +91,11 @@ struct sCO_OD_EEPROM CO_OD_EEPROM = {
            CO_OD_FIRST_LAST_WORD,
 
 /*2101*/ 0x0000L,
+/*2103*/ 0x0064L,
 /*2105*/ {0x0L, 0x4L},
 /*2110*/ 0x4e20L,
 /*2111*/ {0x0L, 0x1L, 0x2L, 0x3L},
+/*2113*/ 0x0L,
 
            CO_OD_FIRST_LAST_WORD,
 };
@@ -283,7 +285,7 @@ struct sCO_OD_EEPROM CO_OD_EEPROM = {
 /*******************************************************************************
    OBJECT DICTIONARY
 *******************************************************************************/
-const CO_OD_entry_t CO_OD[54] = {
+const CO_OD_entry_t CO_OD[56] = {
 
 {0x1000, 0x00, 0x85, 4, (void*)&CO_OD_ROM.deviceType},
 {0x1001, 0x00, 0x26, 1, (void*)&CO_OD_RAM.errorRegister},
@@ -330,7 +332,7 @@ const CO_OD_entry_t CO_OD[54] = {
 {0x2100, 0x00, 0x26, 10, (void*)&CO_OD_RAM.errorStatusBits},
 {0x2101, 0x00, 0xa7, 4, (void*)&CO_OD_EEPROM.powerOnCounter},
 {0x2102, 0x00, 0x3e, 1, (void*)&CO_OD_RAM.sensorEnable},
-{0x2103, 0x00, 0x8e, 4, (void*)&CO_OD_RAM.sensorPeriode},
+{0x2103, 0x00, 0x8f, 4, (void*)&CO_OD_EEPROM.sensorPeriode},
 {0x2104, 0x02, 0x26, 1, (void*)&CO_OD_RAM.sensorMeasurement[0]},
 {0x2105, 0x02, 0x0f, 1, (void*)&CO_OD_EEPROM.sensorMapping[0]},
 {0x2106, 0x04, 0x26, 1, (void*)&CO_OD_RAM.relaisState[0]},
@@ -339,5 +341,7 @@ const CO_OD_entry_t CO_OD[54] = {
 {0x2109, 0x02, 0x1a, 1, (void*)&CO_OD_RAM.valveCmd[0]},
 {0x2110, 0x00, 0x8f, 4, (void*)&CO_OD_EEPROM.valveRoutineTime},
 {0x2111, 0x04, 0x0f, 1, (void*)&CO_OD_EEPROM.valveMapping[0]},
+{0x2112, 0x00, 0x3e, 1, (void*)&CO_OD_RAM.touchEnable},
+{0x2113, 0x00, 0x0b, 1, (void*)&CO_OD_EEPROM.touchValveIndex},
 };
 // clang-format on

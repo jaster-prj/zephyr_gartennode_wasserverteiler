@@ -50,6 +50,21 @@ int valve_set_state(uint8_t idx, uint8_t state) {
 	CO_UNLOCK_OD();
 	return 0;
 }
+
+/**
+ * @brief toggle valve state
+ *
+ * @param idx valve index (0 or 1)
+ * @return 0 on success, -1 on error
+ */
+int valve_toggle(uint8_t idx) {
+	if (idx >= 2) {
+		LOG_ERR("Valve index out of range");
+		return -1;
+	}
+	return valve_order(idx, !OD_valveState[idx]);
+}
+
 /**
  * @brief set valve command
  *

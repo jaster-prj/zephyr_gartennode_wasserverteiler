@@ -64,7 +64,7 @@
       <description />
       <accessFunctionPreCode />
     </CANopenObject>
-    <CANopenObject index="100a" name="Manufacturer software version" objectType="VAR" memoryType="ROM" dataType="0x09" accessType="const" PDOmapping="no" defaultValue="0.0.14" highValue="" lowValue="" subNumber="0" accessFunctionName="" disabled="false" TPDOdetectCOS="false">
+    <CANopenObject index="100a" name="Manufacturer software version" objectType="VAR" memoryType="ROM" dataType="0x09" accessType="const" PDOmapping="no" defaultValue="0.0.15" highValue="" lowValue="" subNumber="0" accessFunctionName="" disabled="false" TPDOdetectCOS="false">
       <description />
       <accessFunctionPreCode />
     </CANopenObject>
@@ -640,7 +640,7 @@
       <description />
       <accessFunctionPreCode />
     </CANopenObject>
-    <CANopenObject index="2103" name="Sensor periode" objectType="VAR" memoryType="RAM" dataType="0x07" accessType="rw" PDOmapping="no" defaultValue="100" highValue="" lowValue="" subNumber="0" accessFunctionName="" disabled="false" TPDOdetectCOS="false">
+    <CANopenObject index="2103" name="Sensor periode" objectType="VAR" memoryType="EEPROM" dataType="0x07" accessType="rw" PDOmapping="no" defaultValue="100" highValue="" lowValue="" subNumber="0" accessFunctionName="" disabled="false" TPDOdetectCOS="false">
       <description />
       <accessFunctionPreCode />
     </CANopenObject>
@@ -757,9 +757,17 @@
       </CANopenSubObject>
       <accessFunctionPreCode />
     </CANopenObject>
+    <CANopenObject index="2112" name="Touch enable" objectType="VAR" memoryType="RAM" dataType="0x01" accessType="rw" PDOmapping="optional" defaultValue="0" highValue="" lowValue="" subNumber="0" accessFunctionName="" disabled="false" TPDOdetectCOS="false">
+      <description />
+      <accessFunctionPreCode />
+    </CANopenObject>
+    <CANopenObject index="2113" name="Touch Valve Index" objectType="VAR" memoryType="EEPROM" dataType="0x05" accessType="wo" PDOmapping="no" defaultValue="0" highValue="" lowValue="" subNumber="0" accessFunctionName="" disabled="false" TPDOdetectCOS="false">
+      <description />
+      <accessFunctionPreCode />
+    </CANopenObject>
   </CANopenObjectList>
   <other>
-    <file fileName="objdict.xml" fileCreator="" fileCreationDate="09-18-2019" fileCreationTime="2:52nachm." fileModifedBy="" fileMotifcationDate="01-23-2026" fileModificationTime="2:52nachm." fileVersion="1" fileRevision="1" exportFolder="/mnt/Daten/Programmierung/zephyr/zephyr_gartennode_wasserverteiler/objdict" EdsFile="/mnt/Daten/Programmierung/zephyr/zephyr_gartennode_wasserverteiler/objdict/objdict.eds" />
+    <file fileCreator="" fileCreationDate="09-18-2019" fileCreationTime="3:52nachm." fileModifedBy="" fileMotifcationDate="05-13-2026" fileModificationTime="2:20nachm." fileVersion="1" fileRevision="1" exportFolder="" />
     <DeviceIdentity>
       <vendorName>Jaster Products</vendorName>
       <vendorNumber>0</vendorNumber>
