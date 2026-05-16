@@ -14,7 +14,8 @@
 #endif
 
 typedef void (*watchdog_callback_t)(int channel_id, void *user_data);
-int watchdog_add(uint8_t reload_period, watchdog_callback_t callback, void *user_data);
+int watchdog_init(void);
+int watchdog_add(uint32_t reload_period, watchdog_callback_t callback, void *user_data);
 int watchdog_delete(int channel_id);
 int watchdog_feed(int channel_id);
 

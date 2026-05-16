@@ -3,7 +3,7 @@
 #include <canopennode.h>
 #include "relais.h"
 
-LOG_MODULE_REGISTER(relais);
+LOG_MODULE_REGISTER(relais,CONFIG_CANOPEN_LOG_LEVEL);
 
 
 static struct gpio_dt_spec relaypw_sw =
@@ -87,6 +87,7 @@ int relais_process(void) {
 	int err;
 	for (uint8_t i=0;i<4;i++) {
 		if (OD_relaisState[i] != (BOOLEAN)(OD_relaisCmd[i])) {
+			LOG_DBG("Processing relais%d command: %d", i+1, (uint8_t)OD_relaisCmd[i]);
 			int set_value = 0; 
 			if ((int)(OD_relaisCmd[i]) != 0) {
 				set_value = 1;

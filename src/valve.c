@@ -5,7 +5,7 @@
 
 #define VALVE_STACK 1024
 
-LOG_MODULE_REGISTER(valve);
+LOG_MODULE_REGISTER(valve, CONFIG_CANOPEN_LOG_LEVEL);
 
 K_THREAD_STACK_DEFINE(valve_stack_area1, VALVE_STACK);
 K_THREAD_STACK_DEFINE(valve_stack_area2, VALVE_STACK);
@@ -86,6 +86,7 @@ int valve_order(uint8_t idx, bool value) {
     }
     valve_cmd[idx]->idx = idx;
     valve_cmd[idx]->value = value;
+	LOG_DBG("Set valve_cmd for valve %d to %d", idx, value);
     return 0;
 }
 
@@ -97,12 +98,15 @@ int valve_order(uint8_t idx, bool value) {
  * @param d2 unused
  */
 void valve_func(void *d0, void *d1, void *d2) {
+	LOG_DBG("start valve_func");
 	if (d0 == NULL) {
+		LOG_DBG("finish valve_func due to NULL parameter");
 		return;
 	}
 	valve_thread_params params = *(valve_thread_params *)d0;
 	k_free(d0);
 	if (OD_valveState[params.idx] == (uint8_t)params.value) {
+		LOG_DBG("finish valve_func due to valve already in desired state");
 		return;
 	}
     uint8_t relais = 0;
@@ -110,7 +114,7 @@ void valve_func(void *d0, void *d1, void *d2) {
 	LOG_DBG("start valve_func for %d with %d",params.idx,(uint8_t)params.value);
     if (OD_valveState[params.idx] == 0xFF) {
         bool old_value = !params.value;
-        relais = OD_valveMapping[(1<<params.idx) + (uint8_t)old_value];
+        relais = OD_valveMapping[(params.idx*2) + (uint8_t)old_value];
         if (relais >= 4) {
             LOG_ERR("Relais index out of range");
             valve_set_state(params.idx, 0xFF);
@@ -120,27 +124,32 @@ void valve_func(void *d0, void *d1, void *d2) {
         CO_LOCK_OD();
         OD_relaisCmd[relais] = 1;
         CO_UNLOCK_OD();
+		LOG_DBG("Sleep for %d ms", OD_valveRoutineTime);
         k_sleep(K_MSEC(OD_valveRoutineTime));
         CO_LOCK_OD();
         OD_relaisCmd[relais] = 0;
         CO_UNLOCK_OD();
     }
-	relais = OD_valveMapping[(1<<params.idx) + (uint8_t)params.value];
+	relais = OD_valveMapping[(params.idx*2) + (uint8_t)params.value];
     if (relais >= 4) {
         LOG_ERR("Relais index out of range");
         valve_set_state(params.idx, 0xFF);
         valve_running[params.idx] = false;
         return;
     }
+	LOG_DBG("Set relais %d for valve %d", relais+1, params.idx);
 	CO_LOCK_OD();
 	OD_relaisCmd[relais] = 1;
 	CO_UNLOCK_OD();
+	LOG_DBG("Sleep for %d ms", OD_valveRoutineTime);
 	k_sleep(K_MSEC(OD_valveRoutineTime));
+	LOG_DBG("Reset relais %d for valve %d", relais+1, params.idx);
 	CO_LOCK_OD();
 	OD_relaisCmd[relais] = 0;
 	CO_UNLOCK_OD();
 	valve_set_state(params.idx, (uint8_t)params.value);
 	valve_running[params.idx] = false;
+	LOG_DBG("finish valve_func");
 }
 
 /**

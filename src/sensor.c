@@ -9,7 +9,7 @@
 
 #define SENSOR_STACK 1024
 
-LOG_MODULE_REGISTER(sensor);
+LOG_MODULE_REGISTER(sensor, CONFIG_CANOPEN_LOG_LEVEL);
 K_THREAD_STACK_DEFINE(sensor_stack_area, SENSOR_STACK);
 
 static void sensor_watchdog_callback(int channel_id, void *user_data);
@@ -120,16 +120,16 @@ int sensor_enable(bool value)
 	int err;
 	if (!gpio_is_ready_dt(&sensor_sw)) {
 		LOG_ERR("The sensor switch pin GPIO port is not ready.\n");
-		return -1;
+		return 10;
 	}
     if (value) {
+		LOG_DBG("sensor_enable called with value: %d", value);
 		err = gpio_pin_set_dt(&sensor_sw, 1);
 		if (err != 0) {
 			LOG_ERR("Configuring sensor switch GPIO pin failed: %d\n", err);
-    		return -1;
+    		return 11;
 		}
 		if (OD_sensorEnable == 1) {
-			LOG_DBG("Thread already started");
 			return 1;
 		}
 		sensor_loop = true;
@@ -139,11 +139,12 @@ int sensor_enable(bool value)
                                  NULL, NULL, NULL,
                                  K_LOWEST_APPLICATION_THREAD_PRIO, 0, K_NO_WAIT);
 	} else {
+		LOG_DBG("sensor_enable called with value: %d", value);
 		sensor_loop = false;
 		err = gpio_pin_set_dt(&sensor_sw, 0);
 		if (err != 0) {
 			LOG_ERR("Setting sensor switch GPIO pin level failed: %d\n", err);
-    		return -1;
+    		return 11;
 		}
     }
     return 0;
@@ -167,15 +168,18 @@ bool sensor_enabled(void) {
  * @param d2 Unused
  */
 void sensor_func(void *d0, void *d1, void *d2) {
-	LOG_DBG("start thread");
+	LOG_DBG("start sensor thread");
 	// bool set_update = false;
-	int wdg_id = watchdog_add((uint32_t)(2*OD_sensorPeriode), sensor_watchdog_callback,(void *)k_current_get());
+	// int wdg_id = watchdog_add((uint32_t)(2*OD_sensorPeriode), sensor_watchdog_callback,(void *)k_current_get());
 	CO_LOCK_OD();
 	OD_sensorEnable = 1;
 	CO_UNLOCK_OD();
+	LOG_DBG("Sensor Period: %d ms", OD_sensorPeriode);
 	LOG_DBG("start loop");
     while(sensor_loop) {
-		watchdog_feed(wdg_id);
+		// if (wdg_id >= 0) {
+		// 	watchdog_feed(wdg_id);
+		// }
 		for (int i=0;i<2;i++) {
 			if (sensors[i]==NULL) {
 				continue;
@@ -197,10 +201,13 @@ void sensor_func(void *d0, void *d1, void *d2) {
 		}
         k_sleep(K_MSEC(OD_sensorPeriode));
     }
+	LOG_DBG("stop sensor thread");
 	CO_LOCK_OD();
 	OD_sensorEnable = 0;
 	CO_UNLOCK_OD();
-	watchdog_delete(wdg_id);
+	// if (wdg_id >= 0) {
+	// 	watchdog_delete(wdg_id);
+	// }
 }
 
 /**
