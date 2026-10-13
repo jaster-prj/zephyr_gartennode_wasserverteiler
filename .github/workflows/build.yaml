@@ -32,10 +32,6 @@ jobs:
         with:
           path: './zephyr_workspace/app'
           submodules: recursive
-      - name: link custom boards
-        working-directory: ./zephyr_workspace/app/custom_boards
-        run: |
-          ./link.sh
       - name: save gartennode.pem
         working-directory: ./zephyr_workspace/bootloader/mcuboot
         run: |
