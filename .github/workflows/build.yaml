@@ -28,9 +28,9 @@ jobs:
           west zephyr-export
           /opt/venv/bin/python -m pip install -r zephyr/scripts/requirements.txt
       - name: Clone Application
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
-          path: './zephyr_workspace/app'
+          path: './zephyr_workspace/application'
           submodules: recursive
       - name: save gartennode.pem
         working-directory: ./zephyr_workspace/bootloader/mcuboot
@@ -42,7 +42,7 @@ jobs:
       - name: build app
         working-directory: ./zephyr_workspace
         run: |
-          /opt/venv/bin/west build -b gartennode app --build-dir build -- -DEXTRA_CONF_FILE=prj.conf
+          /opt/venv/bin/west build -b gartennode application --build-dir build -- -DEXTRA_CONF_FILE=prj.conf
       - name: sign app
         working-directory: ./zephyr_workspace
         run: |
