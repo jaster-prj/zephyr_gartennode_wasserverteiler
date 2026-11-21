@@ -9,7 +9,7 @@
 
 #define TOUCH_STACK 1024
 
-LOG_MODULE_REGISTER(touch, CONFIG_CANOPEN_LOG_LEVEL);
+LOG_MODULE_REGISTER(touch, CONFIG_CANOPENNODE_LOG_LEVEL);
 K_THREAD_STACK_DEFINE(touch_stack_area, TOUCH_STACK);
 
 static void touch_watchdog_callback(int channel_id, void *user_data);

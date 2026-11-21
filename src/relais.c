@@ -3,7 +3,7 @@
 #include <canopennode.h>
 #include "relais.h"
 
-LOG_MODULE_REGISTER(relais,CONFIG_CANOPEN_LOG_LEVEL);
+LOG_MODULE_REGISTER(relais, CONFIG_CANOPENNODE_LOG_LEVEL);
 
 
 static struct gpio_dt_spec relaypw_sw =

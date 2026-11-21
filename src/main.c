@@ -1,3 +1,7 @@
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+#define _POSIX_C_SOURCE 200809L
+#endif
+
 /*
  * Copyright (c) 2019 Vestas Wind Systems A/S
  *
@@ -7,13 +11,22 @@
 #include <inttypes.h>
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+#include <zephyr/drivers/gpio/gpio_emul.h>
+#endif
+#include <zephyr/drivers/can.h>
 #include <zephyr/sys/reboot.h>
+#include <zephyr/sys/util.h>
 #include <zephyr/settings/settings.h>
 #include <zephyr/drivers/sensor.h>
 #include <zephyr/drivers/sensor/w1_sensor.h>
 #include <zephyr/storage/flash_map.h>
 #include <zephyr/sys/printk.h>
 #include <canopennode.h>
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+#include <time.h>
+K_SEM_DEFINE(native_sim_can_rx_wakeup, 0, 1);
+#endif
 #include "valve.h"
 #include "relais.h"
 #include "watchdog.h"
@@ -21,9 +34,44 @@
 #include "touch.h"
 #include "led.h"
 
-#define LOG_LEVEL CONFIG_CANOPEN_LOG_LEVEL
+#define LOG_LEVEL CONFIG_CANOPENNODE_LOG_LEVEL
 #include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(app);
+
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+static int64_t native_sim_monotonic_ms(void)
+{
+	struct timespec now;
+
+	clock_gettime(CLOCK_MONOTONIC, &now);
+	return (int64_t)now.tv_sec * 1000 + now.tv_nsec / 1000000;
+}
+
+static void native_sim_can_bus_activity(const struct device *dev,
+					struct can_frame *frame, void *user_data)
+{
+	ARG_UNUSED(dev);
+	ARG_UNUSED(frame);
+	ARG_UNUSED(user_data);
+	k_sem_give(&native_sim_can_rx_wakeup);
+}
+
+static void native_sim_update_hall_inputs(void)
+{
+	static const struct gpio_dt_spec hall[] = {
+		GPIO_DT_SPEC_GET(DT_NODELABEL(sensor1), gpios),
+		GPIO_DT_SPEC_GET(DT_NODELABEL(sensor2), gpios),
+	};
+
+	for (int i = 0; i < ARRAY_SIZE(hall); i++) {
+		/* Energized motor windings release the Hall switch during travel. */
+		bool moving = OD_relaisState[i * 2] || OD_relaisState[i * 2 + 1];
+		bool high = moving || OD_valveState[i] != 0U;
+
+		(void)gpio_emul_input_set(hall[i].port, hall[i].pin, high);
+	}
+}
+#endif
 
 static CO_SDO_abortCode_t odf_2102(CO_ODF_arg_t *odf_arg);
 static CO_SDO_abortCode_t odf_2103(CO_ODF_arg_t *odf_arg);
@@ -150,8 +198,12 @@ static CO_SDO_abortCode_t odf_2105(CO_ODF_arg_t *odf_arg)
 	uint8_t value;
 	value = *odf_arg->data;
 	if (value == 0xFF) {
+#ifdef CONFIG_CANOPENNODE_STORAGE
 		canopen_storage_erase(CANOPEN_STORAGE_EEPROM);
 		return CO_SDO_AB_NONE;
+#else
+		return CO_SDO_AB_GENERAL;
+#endif
 	}
 	if (value >= 8) {
 		LOG_ERR("Mapping value not possible");
@@ -414,24 +466,62 @@ int main(void)
 							CO->em);
 		}
 
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+		const struct can_filter native_sim_wakeup_filter = {
+			.id = 0U,
+			.mask = 0U,
+		};
+		int native_sim_wakeup_filter_id =
+			can_add_rx_filter(can.dev, native_sim_can_bus_activity, NULL,
+					  &native_sim_wakeup_filter);
+		if (native_sim_wakeup_filter_id < 0) {
+			LOG_ERR("Failed to add native-sim CAN activity filter: %d",
+				native_sim_wakeup_filter_id);
+		}
+#endif
+
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+		sensor_enable(true);
+#else
 		sensor_enable(OD_sensorEnable);
+#endif
 
 		CO_CANsetNormalMode(CO->CANmodule[0]);
 		struct sCO_OD_EEPROM eeprom_old = CO_OD_EEPROM;
 
 		while (true) {
 			timeout = 1U; /* default timeout in milliseconds */
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+			timestamp = native_sim_monotonic_ms();
+#else
 			timestamp = k_uptime_get();
+#endif
 			reset = CO_process(CO, (uint16_t)elapsed, &timeout);
 
 			if (reset != CO_RESET_NOT) {
 				break;
 			}
 
+			/*
+			 * Application work must run regardless of the CANopen stack's
+			 * requested sleep timeout. In particular, native-sim can request
+			 * immediate processing (timeout == 0) while an SDO valve command
+			 * is queued.
+			 */
+			sensor_process();
+			relais_process();
+			valve_process();
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+			native_sim_update_hall_inputs();
+			/*
+			 * CANopenNode's CO_process() handles SDO/NMT only. The optional
+			 * sync thread is disabled in native-sim, so explicitly process
+			 * TPDOs here. Do not process RPDOs: valve commands remain SDO-only.
+			 */
+			CO_process_TPDO(CO, false, elapsed * 1000U);
+#endif
+
 			if (timeout > 0) {
-				sensor_process();
-				relais_process();
-				valve_process();
 #ifdef CONFIG_CANOPENNODE_STORAGE
 				ret = memcmp(&eeprom_old, &CO_OD_EEPROM, sizeof(CO_OD_EEPROM));
 				if (ret != 0) {
@@ -456,14 +546,35 @@ int main(void)
 				 * stack requested and calculate the
 				 * exact time elapsed.
 				 */
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+				uint32_t wait_ms = MAX(timeout, 10U);
+				(void)k_sem_take(&native_sim_can_rx_wakeup, K_MSEC(wait_ms));
+				elapsed = (uint32_t)(native_sim_monotonic_ms() - timestamp);
+				if (elapsed == 0U) {
+					elapsed = 1U;
+				}
+#else
 				k_sleep(K_MSEC(timeout));
 				elapsed = (uint32_t)k_uptime_delta(&timestamp);
+#endif
 			} else {
 				/*
 				 * Do not sleep, more processing to be
 				 * done by the stack.
 				 */
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+				/*
+				 * Keep CANopen timers advancing when the stack requests
+				 * immediate processing on native_sim.
+				 */
+				(void)k_sem_take(&native_sim_can_rx_wakeup, K_MSEC(10));
+				elapsed = (uint32_t)(native_sim_monotonic_ms() - timestamp);
+				if (elapsed == 0U) {
+					elapsed = 1U;
+				}
+#else
 				elapsed = 0U;
+#endif
 			}
 		}
 

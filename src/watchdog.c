@@ -3,7 +3,7 @@
 #include <zephyr/logging/log.h>
 #include "watchdog.h"
 
-LOG_MODULE_REGISTER(watchdog, CONFIG_CANOPEN_LOG_LEVEL);
+LOG_MODULE_REGISTER(watchdog, CONFIG_CANOPENNODE_LOG_LEVEL);
 
 bool watchdog_initialized = false;
 

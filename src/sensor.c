@@ -1,6 +1,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/sys/reboot.h>
+#include <zephyr/sys/util.h>
 #include <zephyr/logging/log.h>
 #include <canopennode.h>
 #include "sensor.h"
@@ -9,7 +10,7 @@
 
 #define SENSOR_STACK 1024
 
-LOG_MODULE_REGISTER(sensor, CONFIG_CANOPEN_LOG_LEVEL);
+LOG_MODULE_REGISTER(sensor, CONFIG_CANOPENNODE_LOG_LEVEL);
 K_THREAD_STACK_DEFINE(sensor_stack_area, SENSOR_STACK);
 
 static void sensor_watchdog_callback(int channel_id, void *user_data);
@@ -133,11 +134,17 @@ int sensor_enable(bool value)
 			return 1;
 		}
 		sensor_loop = true;
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+		CO_LOCK_OD();
+		OD_sensorEnable = 1;
+		CO_UNLOCK_OD();
+#else
 		sensor_tid = k_thread_create(&sensor_thread, sensor_stack_area,
                                  K_THREAD_STACK_SIZEOF(sensor_stack_area),
                                  sensor_func,
                                  NULL, NULL, NULL,
                                  K_LOWEST_APPLICATION_THREAD_PRIO, 0, K_NO_WAIT);
+#endif
 	} else {
 		LOG_DBG("sensor_enable called with value: %d", value);
 		sensor_loop = false;
@@ -146,6 +153,11 @@ int sensor_enable(bool value)
 			LOG_ERR("Setting sensor switch GPIO pin level failed: %d\n", err);
     		return 11;
 		}
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+		CO_LOCK_OD();
+		OD_sensorEnable = 0;
+		CO_UNLOCK_OD();
+#endif
     }
     return 0;
 }
@@ -218,5 +230,23 @@ int sensor_process(void) {
 		sensor_mapping_update();
 		renew_mapping = false;
 	}
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+	if (sensor_loop) {
+		for (int i = 0; i < ARRAY_SIZE(sensors); i++) {
+			bool value = gpio_pin_get_dt(sensors[i]) != 0;
+
+			if ((bool)OD_sensorMeasurement[i] == value) {
+				continue;
+			}
+			CO_LOCK_OD();
+			OD_sensorMeasurement[i] = (BOOLEAN)value;
+			CO_UNLOCK_OD();
+			if (sensor_valve_state[i].state == value) {
+				(void)valve_set_state(sensor_valve_state[i].idx,
+						      sensor_valve_state[i].value);
+			}
+		}
+	}
+#endif
 	return 0;
 }
