@@ -25,8 +25,8 @@ jobs:
         working-directory: ./zephyr_workspace
         run: |
           west update
-          west zephyr-export
           /opt/venv/bin/python -m pip install -r zephyr/scripts/requirements.txt
+          west zephyr-export
       - name: Clone Application
         uses: actions/checkout@v7
         with:
@@ -47,7 +47,7 @@ jobs:
         working-directory: ./zephyr_workspace
         run: |
           /opt/venv/bin/python bootloader/mcuboot/scripts/imgtool.py sign --header-size 0x200 --align 8 --version 1.2 --slot-size 0x30000 --key bootloader/mcuboot/gartennode.pem --pad build/zephyr/zephyr.bin signed_zephyr.bin
-          cp ./app/objdict/objdict.eds .
+          cp ./application/objdict/objdict.eds .
           tar -czf software.tar.gz signed_zephyr.bin objdict.eds
       - name: Publish binary
         id: artifact-upload
