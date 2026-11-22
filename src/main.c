@@ -17,12 +17,14 @@
 #include <zephyr/drivers/can.h>
 #include <zephyr/sys/reboot.h>
 #include <zephyr/sys/util.h>
+#include <string.h>
 #include <zephyr/settings/settings.h>
 #include <zephyr/drivers/sensor.h>
 #include <zephyr/drivers/sensor/w1_sensor.h>
 #include <zephyr/storage/flash_map.h>
 #include <zephyr/sys/printk.h>
 #include <canopennode.h>
+#include "native_sim_gpio.h"
 #if defined(CONFIG_BOARD_NATIVE_SIM)
 #include <time.h>
 K_SEM_DEFINE(native_sim_can_rx_wakeup, 0, 1);
@@ -30,6 +32,8 @@ K_SEM_DEFINE(native_sim_can_rx_wakeup, 0, 1);
 #include "valve.h"
 #include "relais.h"
 #include "watchdog.h"
+#include "update_control.h"
+#include "update_diagnostics.h"
 #include "sensor.h"
 #include "touch.h"
 #include "led.h"
@@ -63,13 +67,22 @@ static void native_sim_update_hall_inputs(void)
 		GPIO_DT_SPEC_GET(DT_NODELABEL(sensor2), gpios),
 	};
 
+	uint8_t states[ARRAY_SIZE(hall)];
+	uint8_t hall_override[ARRAY_SIZE(hall)];
+	bool has_hall_override = native_sim_gpio_receive_hall(
+		hall_override, ARRAY_SIZE(hall_override));
+
 	for (int i = 0; i < ARRAY_SIZE(hall); i++) {
 		/* Energized motor windings release the Hall switch during travel. */
 		bool moving = OD_relaisState[i * 2] || OD_relaisState[i * 2 + 1];
-		bool high = moving || OD_valveState[i] != 0U;
+		bool high = has_hall_override
+			? hall_override[i] != 0U
+			: moving || OD_valveState[i] != 0U;
 
 		(void)gpio_emul_input_set(hall[i].port, hall[i].pin, high);
+		states[i] = (uint8_t)(gpio_pin_get_dt(&hall[i]) > 0);
 	}
+	native_sim_gpio_publish(46007U, states, ARRAY_SIZE(states));
 }
 #endif
 
@@ -464,6 +477,10 @@ int main(void)
 		if (IS_ENABLED(CONFIG_CANOPENNODE_PROGRAM_DOWNLOAD)) {
 			canopen_program_download_attach(CO->NMT, CO->SDO[0],
 							CO->em);
+			wasserverteiler_update_control_attach(CO->SDO[0]);
+#if defined(CONFIG_WASSERVERTEILER_UPDATE_DIAGNOSTICS)
+			wasserverteiler_update_diagnostics_attach(CO->SDO[0]);
+#endif
 		}
 
 #if defined(CONFIG_BOARD_NATIVE_SIM)

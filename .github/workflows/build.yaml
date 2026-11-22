@@ -39,16 +39,26 @@ jobs:
         shell: bash
         env:
           PEM: ${{ secrets.ZEPHYR_SIGN_KEY }}
-      - name: build app
+      - name: Build Bootloader
         working-directory: ./zephyr_workspace
         run: |
-          /opt/venv/bin/west build -b gartennode application --build-dir build -- -DEXTRA_CONF_FILE=prj.conf
-      - name: sign app
+          /opt/venv/bin/west build -b gartennode bootloader/mcuboot/boot/zephyr --build-dir build/bootloader -- -DEXTRA_CONF_FILE="$(pwd)/application/bootloader.conf"
+      - name: Build Application
         working-directory: ./zephyr_workspace
         run: |
-          /opt/venv/bin/python bootloader/mcuboot/scripts/imgtool.py sign --header-size 0x200 --align 8 --version 1.2 --slot-size 0x30000 --key bootloader/mcuboot/gartennode.pem --pad build/zephyr/zephyr.bin signed_zephyr.bin
-          cp ./application/objdict/objdict.eds .
-          tar -czf software.tar.gz signed_zephyr.bin objdict.eds
+          /opt/venv/bin/west build -b gartennode application --build-dir build/application -- -DEXTRA_CONF_FILE=prj.conf
+      - name: Create Software-Container
+        working-directory: ./zephyr_workspace
+        run: |
+          cp build/bootloader/zephyr/zephyr.bin bootloader.bin
+          cp build/application/zephyr/zephyr.bin application.bin
+          cp build/application/zephyr/zephyr.signed.bin application.signed.bin
+          # Use Zephyr's configured header size and MCUboot swap mode.
+          /opt/venv/bin/python application/scripts/check_firmware.py application.signed.bin build/application/zephyr/.config
+          /opt/venv/bin/python -m unittest discover -s application/scripts -p 'test_*.py'
+          /opt/venv/bin/python bootloader/mcuboot/scripts/imgtool.py verify --key bootloader/mcuboot/gartennode.pem application.signed.bin
+          /opt/venv/bin/python application/scripts/prepare_eds.py build/application/zephyr/.config application/objdict/objdict.eds objdict.eds
+          tar -czf software.tar.gz bootloader.bin application.bin application.signed.bin objdict.eds
       - name: Publish binary
         id: artifact-upload
         uses: actions/upload-artifact@v6

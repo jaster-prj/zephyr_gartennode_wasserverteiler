@@ -1,7 +1,11 @@
 #include <zephyr/logging/log.h>
 #include <zephyr/drivers/gpio.h>
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+#include <zephyr/drivers/gpio/gpio_emul.h>
+#endif
 #include <canopennode.h>
 #include "relais.h"
+#include "native_sim_gpio.h"
 
 LOG_MODULE_REGISTER(relais, CONFIG_CANOPENNODE_LOG_LEVEL);
 
@@ -23,6 +27,20 @@ static struct gpio_dt_spec *relais[4] = {
 	&relay3_sw,
 	&relay4_sw
 };
+
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+static void publish_relay_gpio_state(void)
+{
+	uint8_t states[ARRAY_SIZE(relais)];
+
+	for (size_t i = 0; i < ARRAY_SIZE(relais); i++) {
+		int value = gpio_emul_output_get_dt(relais[i]);
+
+		states[i] = value > 0 ? 1U : 0U;
+	}
+	native_sim_gpio_publish(46009U, states, ARRAY_SIZE(states));
+}
+#endif
 
 /**
  * @brief Initialize relais GPIOs
@@ -51,6 +69,9 @@ int relais_init(void) {
             return -1;
         }
     }
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+	publish_relay_gpio_state();
+#endif
     return 0;
 }
 
@@ -102,5 +123,8 @@ int relais_process(void) {
 			CO_UNLOCK_OD();
 		}
 	}
+#if defined(CONFIG_BOARD_NATIVE_SIM)
+	publish_relay_gpio_state();
+#endif
 	return 0;
 }
